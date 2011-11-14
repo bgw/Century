@@ -1,0 +1,6 @@
+__pycache__/*
+*.pyc
+config.py # ignored by default to keep from doing something stupid, add with -f
+          # if you really want to update it
+doc/_build/*
+README.html
