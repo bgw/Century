@@ -1,0 +1,146 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.4. cookies – Automatic Handling of Browser Cookies &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" />
+    <link rel="next" title="1.2.2.5. useragent – HTTP user-agent Spoofing" href="../plugins/useragent.html" />
+    <link rel="prev" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections" href="../plugins/redirect.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/useragent.html" title="1.2.2.5. useragent – HTTP user-agent Spoofing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/redirect.html" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" accesskey="U">1.2.2. <tt class="docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins.cookies">
+<span id="cookies-automatic-handling-of-browser-cookies"></span><h1>1.2.2.4. <tt class="docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies<a class="headerlink" href="#module-lib.browser.plugins.cookies" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lib.browser.plugins.cookies.CookieBrowserPlugin">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.cookies.</tt><tt class="descname">CookieBrowserPlugin</tt><a class="headerlink" href="#lib.browser.plugins.cookies.CookieBrowserPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a handler to a <a class="reference internal" href="../browser.html#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.Browser</span></tt></a> for cookies. Recieving
+and sending cookies then happens in a automatic fashion.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.cookies.CookieBrowserPlugin.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.cookies.CookieBrowserPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new plugin with an empty jar.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.cookies.CookieBrowserPlugin.cookie_jar">
+<tt class="descname">cookie_jar</tt><big>(</big><em>plugin</em>, <em>browser</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.cookies.CookieBrowserPlugin.cookie_jar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the property <tt class="docutils literal"><span class="pre">cookie_jar</span></tt> to the browser, allowing you to get
+the handler&#8217;s <tt class="xref py py-class docutils literal"><span class="pre">http.cookiejar.CookieJar</span></tt> instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugins/redirect.html"
+                        title="previous chapter">1.2.2.3. <tt class="docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/useragent.html"
+                        title="next chapter">1.2.2.5. <tt class="docutils literal"><span class="pre">useragent</span></tt> &#8211; HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> Spoofing</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/cookies.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/useragent.html" title="1.2.2.5. useragent – HTTP user-agent Spoofing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/redirect.html" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

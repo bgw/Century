@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Web-Browser Services &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../index.html" />
+    <link rel="next" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module" href="parsers.html" />
+    <link rel="prev" title="Century Library Documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="parsers.html" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Century Library Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Century 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-browser-services">
+<h1>1. Web-Browser Services<a class="headerlink" href="#web-browser-services" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-lib.browser">
+<span id="browser-webbrowser-like-extensable-state-machine"></span><h2>1.1. <tt class="docutils literal"><span class="pre">browser</span></tt> &#8211; Webbrowser-like Extensable State Machine<a class="headerlink" href="#module-lib.browser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="lib.browser.Browser">
+<em class="property">class </em><tt class="descclassname">lib.browser.</tt><tt class="descname">Browser</tt><big>(</big><em>default_parser</em>, <em>*plugins</em><big>)</big><a class="headerlink" href="#lib.browser.Browser" title="Permalink to this definition">¶</a></dt>
+<dd><p>An extensible system for using urllib like a state-machine. Functions act
+much like they would on a browser, with stuff like a <a class="reference internal" href="#lib.browser.Browser.back" title="lib.browser.Browser.back"><tt class="xref py py-meth docutils literal"><span class="pre">back()</span></tt></a> method and
+caching. A plugin system is used to allow a prototypical multiple-
+inheritance-like system at runtime. It&#8217;s like a highly structured form of
+monkey-patching.</p>
+<dl class="method">
+<dt id="lib.browser.Browser.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>default_parser</em>, <em>*plugins</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new <a class="reference internal" href="#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">Browser</span></tt></a> object, loaded with the specified
+set of plugins, and using the specified default parser. Both these
+values can be changed after instantiation (however you cannot remove
+plugins, only add them).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.load_page">
+<tt class="descname">load_page</tt><big>(</big><em>url</em>, <em>parser=None</em>, <em>data=None</em>, <em>record_history=True</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.load_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests, loads, and parses a webpage using the internal
+<tt class="xref py py-mod docutils literal"><span class="pre">urllib</span></tt> based opener It is recommended, but not required, that
+beyond the first url argument, you use keyword arguments, as some poorly
+written plugins overriding this function may not behave nicely with the
+large number of positional arguments. Additionally, their order is
+subject to change.</p>
+<p><em>Keyword arguments:</em></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">url</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">http://</span></tt> or <tt class="docutils literal"><span class="pre">https://</span></tt> page to load. Can alternatively
+be a relative address (which is then treated as relative to the
+current page)</dd>
+<dt><tt class="docutils literal"><span class="pre">parser</span></tt></dt>
+<dd><p class="first">If <tt class="docutils literal"><span class="pre">None</span></tt>, maps to the default parser, specified upon
+construction. (If one was not specified, then
+<a class="reference internal" href="parsers.html#lib.browser.parsers.passthrough" title="lib.browser.parsers.passthrough"><tt class="xref py py-func docutils literal"><span class="pre">parsers.passthrough()</span></tt></a> is used, which does nothing to the page
+data, and just returns the page source. A parser should follow the
+format:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">parser</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">data</span></tt></dt>
+<dd>Maps to the <tt class="docutils literal"><span class="pre">data</span></tt> parameter of <tt class="xref py py-func docutils literal"><span class="pre">urllib.request.urlopen()</span></tt>.
+This should contain pre-encoded <tt class="docutils literal"><span class="pre">HTTP</span></tt> <tt class="docutils literal"><span class="pre">POST</span></tt> data. <tt class="docutils literal"><span class="pre">GET</span></tt> data
+should be encoded into the page url.</dd>
+<dt><tt class="docutils literal"><span class="pre">record_history</span></tt></dt>
+<dd>If <tt class="docutils literal"><span class="pre">False</span></tt>, the page will not be entered into the internal list of
+pages loaded, and so the only reminder of this page load will be the
+cache (and possibly stuff like cookies for instance if you have
+<tt class="xref py py-class docutils literal"><span class="pre">cookies.CookieBrowserPlugin</span></tt> enabled). This is used
+internally for the <a class="reference internal" href="#lib.browser.Browser.back" title="lib.browser.Browser.back"><tt class="xref py py-meth docutils literal"><span class="pre">back()</span></tt></a>, <a class="reference internal" href="#lib.browser.Browser.forward" title="lib.browser.Browser.forward"><tt class="xref py py-meth docutils literal"><span class="pre">forward()</span></tt></a> and <a class="reference internal" href="#lib.browser.Browser.refresh" title="lib.browser.Browser.refresh"><tt class="xref py py-meth docutils literal"><span class="pre">refresh()</span></tt></a>
+functions.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.submit">
+<tt class="descname">submit</tt><big>(</big><em>method</em>, <em>url</em>, <em>values</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes values and encodes them to send back to the server, eventually
+loading a new page as a result. It satisfies the
+<tt class="xref py py-func docutils literal"><span class="pre">lxml.html.submit_form()</span></tt> <tt class="docutils literal"><span class="pre">open_http</span></tt> argument. Many of the
+keyword arguments map directly to <a class="reference internal" href="#lib.browser.Browser.load_page" title="lib.browser.Browser.load_page"><tt class="xref py py-meth docutils literal"><span class="pre">load_page()</span></tt></a>.</p>
+<p><em>Keyword arguments:</em></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">method</span></tt></dt>
+<dd>A string consisting of <tt class="docutils literal"><span class="pre">&quot;GET&quot;</span></tt> or <tt class="docutils literal"><span class="pre">&quot;POST&quot;</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">url</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">http://</span></tt> or <tt class="docutils literal"><span class="pre">https://</span></tt> page to load.</dd>
+<dt><tt class="docutils literal"><span class="pre">values</span></tt></dt>
+<dd>Either a dictionary or list of two-item tuples containing the data
+to encode</dd>
+<dt><tt class="docutils literal"><span class="pre">parser</span></tt></dt>
+<dd><p class="first">If <tt class="docutils literal"><span class="pre">None</span></tt>, maps to the default parser, specified upon
+construction. (If one was not specified, then
+<a class="reference internal" href="parsers.html#lib.browser.parsers.passthrough" title="lib.browser.parsers.passthrough"><tt class="xref py py-func docutils literal"><span class="pre">parsers.passthrough()</span></tt></a> is used, which does nothing to the page
+data, and just returns the page source. A parser should follow the
+format:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">parser</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">record_history</span></tt></dt>
+<dd>If <tt class="docutils literal"><span class="pre">False</span></tt>, the page will not be entered into the internal list of
+pages loaded, and so the only reminder of this page load will be the
+cache (and possibly stuff like cookies for instance if you have
+<tt class="xref py py-class docutils literal"><span class="pre">cookies.CookieBrowserPlugin</span></tt> enabled). This is used
+internally for the <a class="reference internal" href="#lib.browser.Browser.back" title="lib.browser.Browser.back"><tt class="xref py py-meth docutils literal"><span class="pre">back()</span></tt></a>, <a class="reference internal" href="#lib.browser.Browser.forward" title="lib.browser.Browser.forward"><tt class="xref py py-meth docutils literal"><span class="pre">forward()</span></tt></a> and <a class="reference internal" href="#lib.browser.Browser.refresh" title="lib.browser.Browser.refresh"><tt class="xref py py-meth docutils literal"><span class="pre">refresh()</span></tt></a>
+functions.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.back">
+<tt class="descname">back</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.back" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reloads the previous page (if there is one) and returns it.
+Additional arguments (positional and keyword) will be passed through to
+<a class="reference internal" href="#lib.browser.Browser.load_page" title="lib.browser.Browser.load_page"><tt class="xref py py-meth docutils literal"><span class="pre">load_page()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.forward">
+<tt class="descname">forward</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reloads the next page (if there is one) and returns it.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.Browser.history">
+<tt class="descname">history</tt><a class="headerlink" href="#lib.browser.Browser.history" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list containing information on previously visited web pages, in
+the form of tuples, <tt class="docutils literal"><span class="pre">(url,</span> <span class="pre">post_data)</span></tt>. While HTTP POST data is
+included explicitly, HTTP GET data is included within the URL.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.Browser.current_url">
+<tt class="descname">current_url</tt><a class="headerlink" href="#lib.browser.Browser.current_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.refresh">
+<tt class="descname">refresh</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.refresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reloads the current web page, and returns it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser._load_relative">
+<tt class="descname">_load_relative</tt><big>(</big><em>relative_index</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser._load_relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a page relative in history to the current page. For example,
+going back one page could be done with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">_load_relative</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method is not to be confused with the similarly named
+<a class="reference internal" href="#lib.browser.Browser.expand_relative_url" title="lib.browser.Browser.expand_relative_url"><tt class="xref py py-meth docutils literal"><span class="pre">expand_relative_url()</span></tt></a>, which instead works to turn relative
+urls into absolute ones.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser.expand_relative_url">
+<tt class="descname">expand_relative_url</tt><big>(</big><em>url</em>, <em>relative_to=None</em><big>)</big><a class="headerlink" href="#lib.browser.Browser.expand_relative_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>If passed a relative url, finds it&#8217;s absolute url in relation to the
+current page&#8217;s url.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser._parse_page">
+<tt class="descname">_parse_page</tt><big>(</big><em>parser</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.Browser._parse_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a page and parses it with a given parser, or with the default
+parser if the given parser is <tt class="docutils literal"><span class="pre">None</span></tt>. There are two ways to call this
+method:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">self._parse_page(parser,</span> <span class="pre">source,</span> <span class="pre">headers,</span> <span class="pre">url)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">self._parse_page(parser,</span> <span class="pre">response)</span></tt></li>
+</ul>
+</div></blockquote>
+<p>Where <tt class="docutils literal"><span class="pre">source</span></tt> is the byte-string gotten from <tt class="docutils literal"><span class="pre">response.read()</span></tt>,
+<tt class="docutils literal"><span class="pre">headers</span></tt> is the result of calling <tt class="docutils literal"><span class="pre">response.info()</span></tt>, and response
+is the result given by calling <tt class="xref py py-func docutils literal"><span class="pre">urllib.response.urlopen()</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.Browser._simplify_url">
+<tt class="descname">_simplify_url</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#lib.browser.Browser._simplify_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes <tt class="docutils literal"><span class="pre">#fragments</span></tt> from urls, removes a <tt class="docutils literal"><span class="pre">trailing/</span></tt> from the
+path, if there is one (without destroying <tt class="docutils literal"><span class="pre">?parameters</span></tt>), and gets rid
+of any unnecessary elements, like an unused <tt class="docutils literal"><span class="pre">?</span></tt>. This is useful,
+because it makes it easier to compare urls, for caching, and for other
+reasons.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.get_new_uf_browser">
+<tt class="descclassname">lib.browser.</tt><tt class="descname">get_new_uf_browser</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.get_new_uf_browser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Browser object with the set of recommended plugins.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="parsers-and-plugins">
+<h2>1.2. Parsers and Plugins<a class="headerlink" href="#parsers-and-plugins" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">1.2.1. <tt class="docutils literal"><span class="pre">parsers</span></tt> &#8211; Generic Webpage Parsers for the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins/index.html">1.2.2. <tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins/plugin_arch.html">1.2.2.1. The Plugin Architechure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/decorators.html">1.2.2.2. <tt class="docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal"><span class="pre">Pluggable</span></tt></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugins/decorators.html#plugin-related-decorators">1.2.2.2.1. Plugin Related Decorators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins/decorators.html#pluggable-related-decorators">1.2.2.2.2. <tt class="docutils literal"><span class="pre">Pluggable</span></tt> Related Decorators</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/redirect.html">1.2.2.3. <tt class="docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/cookies.html">1.2.2.4. <tt class="docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/useragent.html">1.2.2.5. <tt class="docutils literal"><span class="pre">useragent</span></tt> &#8211; HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> Spoofing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/keepalive.html">1.2.2.6. <tt class="docutils literal"><span class="pre">keepalive</span></tt> &#8211; Handler for HTTP <tt class="docutils literal"><span class="pre">Keep-Alive</span></tt> Headers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugins/keepalive.html#module-lib.browser.plugins.keepalive">1.2.2.6.1. <tt class="docutils literal"><span class="pre">keepalive</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins/keepalive.html#module-lib.browser.plugins.keepalive.handler">1.2.2.6.2. <tt class="docutils literal"><span class="pre">keepalive.handler</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/uf/index.html">1.2.2.7. <tt class="docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plugins/uf/login.html">1.2.2.7.1. <tt class="docutils literal"><span class="pre">login</span></tt> &#8211; Automatic and Semi-Automatic Gatorlink Login Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plugins/uf/isis.html">1.2.2.7.2. <tt class="docutils literal"><span class="pre">isis</span></tt> &#8211; Tools for Working With ISIS (Integrated Student Information System)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Web-Browser Services</a><ul>
+<li><a class="reference internal" href="#module-lib.browser">1.1. <tt class="docutils literal"><span class="pre">browser</span></tt> &#8211; Webbrowser-like Extensable State Machine</a></li>
+<li><a class="reference internal" href="#parsers-and-plugins">1.2. Parsers and Plugins</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Century Library Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="parsers.html"
+                        title="next chapter">1.2.1. <tt class="docutils literal"><span class="pre">parsers</span></tt> &#8211; Generic Webpage Parsers for the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/browser.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="parsers.html" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Century Library Documentation"
+             >previous</a> |</li>
+        <li><a href="../index.html">Century 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

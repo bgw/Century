@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.1. parsers – Generic Webpage Parsers for the browser Module &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../index.html" />
+    <link rel="up" title="1. Web-Browser Services" href="browser.html" />
+    <link rel="next" title="1.2.2. plugins – Extending the browser Module" href="plugins/index.html" />
+    <link rel="prev" title="1. Web-Browser Services" href="browser.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins/index.html" title="1.2.2. plugins – Extending the browser Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="browser.html" title="1. Web-Browser Services"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="browser.html" accesskey="U">1. Web-Browser Services</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.parsers">
+<span id="parsers-generic-webpage-parsers-for-the-browser-module"></span><h1>1.2.1. <tt class="docutils literal"><span class="pre">parsers</span></tt> &#8211; Generic Webpage Parsers for the <tt class="xref py py-mod docutils literal"><span class="pre">browser</span></tt> Module<a class="headerlink" href="#module-lib.browser.parsers" title="Permalink to this headline">¶</a></h1>
+<p>Defines a set of useful parser functions, and generators for parser
+functions. A parser function must take three arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">source</span></tt></dt>
+<dd>The non-decoded raw byte result from the page load. This should be the
+result from a call to <tt class="docutils literal"><span class="pre">read()</span></tt> from the urllib file hander resulting from
+calling urllib.</dd>
+<dt><tt class="docutils literal"><span class="pre">headers</span></tt></dt>
+<dd>The result of a call to <tt class="docutils literal"><span class="pre">info()</span></tt> on the file handler.</dd>
+<dt><tt class="docutils literal"><span class="pre">url</span></tt></dt>
+<dd>The url of the current page (after redirects).</dd>
+</dl>
+<dl class="function">
+<dt id="lib.browser.parsers.beautiful_soup_html">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">beautiful_soup_html</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.beautiful_soup_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <tt class="xref py py-class docutils literal"><span class="pre">BeautifulSoup.BeautifulSoup</span></tt> object using the
+<a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> library.
+BeautifulSoup is very error resistant, and may be useful for some rather
+broken html. Additionally, it&#8217;s written in pure python, unlike lxml which
+has native dependencies. Unfortunately, it is rather slow compared to lxml,
+and it has poor Python 3 support at the moment.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.beautiful_soup_xml">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">beautiful_soup_xml</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.beautiful_soup_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <tt class="xref py py-class docutils literal"><span class="pre">BeautifulSoup.BeautifulStoneSoup</span></tt> object using the
+<a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> library.
+BeautifulSoup is very error resistant, and may be useful for some rather
+broken xml. Additionally, it&#8217;s written in pure python, unlike lxml which has
+native dependencies. Unfortunately, it is rather slow compared to lxml, and
+it has poor Python 3 support at the moment.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.htmlparser">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">htmlparser</tt><big>(</big><em>subclass</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.htmlparser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Taking a subclass of <tt class="xref py py-class docutils literal"><span class="pre">html.parser.HTMLParser</span></tt> (in py3k) or
+<tt class="xref py py-class docutils literal"><span class="pre">HTMLParser.HTMLParser</span></tt> (in py2), or alternatively a factory
+returning a subclass of one of those, builds a parser. When given data, the
+returned parser will construct a new instance of the subclass</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.lxml_html">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">lxml_html</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.lxml_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <tt class="xref py py-func docutils literal"><span class="pre">lxml.etree.ElementTree()</span></tt> generated with
+<a class="reference external" href="http://lxml.de/lxmlhtml.html">lxml&#8217;s html module</a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.lxml_xml">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">lxml_xml</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.lxml_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <tt class="xref py py-func docutils literal"><span class="pre">lxml.etree.ElementTree()</span></tt> generated with
+<a class="reference external" href="http://lxml.de/tutorial.html">lxml&#8217;s etree module</a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.passthrough">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">passthrough</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.passthrough" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the byte data given my the <tt class="docutils literal"><span class="pre">read()</span></tt> method on the result from
+<tt class="docutils literal"><span class="pre">urlopen</span></tt>. This just returns the source argument that it&#8217;s passed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.passthrough_args">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">passthrough_args</tt><big>(</big><em>source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.passthrough_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of the arguments it&#8217;s given. You can then use these
+arguments to call multiple other parsers. Here&#8217;s an example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">args</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">passthrough_args</span><span class="p">)</span>
+<span class="n">lxml_data</span> <span class="o">=</span> <span class="n">lxml_html</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="n">str_data</span> <span class="o">=</span> <span class="n">passthrough_str</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.passthrough_str">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">passthrough_str</tt><big>(</big><em>byte_source</em>, <em>headers</em>, <em>url</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.passthrough_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like <a class="reference internal" href="#lib.browser.parsers.passthrough" title="lib.browser.parsers.passthrough"><tt class="xref py py-func docutils literal"><span class="pre">passthrough()</span></tt></a>, but returns a unicod <tt class="docutils literal"><span class="pre">str</span></tt> object rather than
+a sequence of bytes.</p>
+<p>Encoding is automatically determined via http headers or (if that fails)
+from the html source if it has a meta http-equiv tag to handle it (assuming
+that tag can be decoded via a best-attempt UTF-8 decoding). If encoding
+cannot be determined, we just try to decode it in UTF-8, ignoring unknown
+characters.</p>
+<p>Unfortunately, this function does not yet have a system like
+<tt class="xref py py-class docutils literal"><span class="pre">BeautifulSoup.UnicodeDammit</span></tt>, or <tt class="xref py py-mod docutils literal"><span class="pre">chardet</span></tt>, which can
+actually build a statistical model of the page&#8217;s possible encoding.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.parsers.passthrough_str_with_encoding">
+<tt class="descclassname">lib.browser.parsers.</tt><tt class="descname">passthrough_str_with_encoding</tt><big>(</big><em>encoding</em><big>)</big><a class="headerlink" href="#lib.browser.parsers.passthrough_str_with_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and returns a custom version of <a class="reference internal" href="#lib.browser.parsers.passthrough_str" title="lib.browser.parsers.passthrough_str"><tt class="xref py py-func docutils literal"><span class="pre">passthrough_str()</span></tt></a>,
+utilizing a specified string encoding format, rather than attempting to
+automatically detect things.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="browser.html"
+                        title="previous chapter">1. Web-Browser Services</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins/index.html"
+                        title="next chapter">1.2.2. <tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/library/parsers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins/index.html" title="1.2.2. plugins – Extending the browser Module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="browser.html" title="1. Web-Browser Services"
+             >previous</a> |</li>
+        <li><a href="../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="browser.html" >1. Web-Browser Services</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

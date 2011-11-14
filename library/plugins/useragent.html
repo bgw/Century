@@ -1,0 +1,149 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.5. useragent – HTTP user-agent Spoofing &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" />
+    <link rel="next" title="1.2.2.6. keepalive – Handler for HTTP Keep-Alive Headers" href="../plugins/keepalive.html" />
+    <link rel="prev" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies" href="../plugins/cookies.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/keepalive.html" title="1.2.2.6. keepalive – Handler for HTTP Keep-Alive Headers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/cookies.html" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" accesskey="U">1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins.useragent">
+<span id="useragent-http-user-agent-spoofing"></span><h1>1.2.2.5. <tt class="docutils literal"><span class="pre">useragent</span></tt> &#8211; HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> Spoofing<a class="headerlink" href="#module-lib.browser.plugins.useragent" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lib.browser.plugins.useragent.UserAgentSpoofer">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.useragent.</tt><tt class="descname">UserAgentSpoofer</tt><big>(</big><em>agent_string</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.useragent.UserAgentSpoofer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows one to easily change the browser&#8217;s HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> header.
+This can be handy if you want to ensure that we are treated like a
+real-world browser.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.useragent.UserAgentSpoofer.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>agent_string</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.useragent.UserAgentSpoofer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new instance of the plugin using the specified user-agent
+string. The string can be custom, or can be pulled from one of the
+class&#8217; example strings.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="lib.browser.plugins.useragent.firefox">
+<tt class="descclassname">lib.browser.plugins.useragent.</tt><tt class="descname">firefox</tt><a class="headerlink" href="#lib.browser.plugins.useragent.firefox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary containing user-agent strings for <tt class="docutils literal"><span class="pre">iceweasel-linux-5.0</span></tt>,
+<tt class="docutils literal"><span class="pre">firefox-macintosh-5.0</span></tt>, and <tt class="docutils literal"><span class="pre">firefox-windows-4.0</span></tt>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugins/cookies.html"
+                        title="previous chapter">1.2.2.4. <tt class="docutils literal docutils literal docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/keepalive.html"
+                        title="next chapter">1.2.2.6. <tt class="docutils literal docutils literal docutils literal"><span class="pre">keepalive</span></tt> &#8211; Handler for HTTP <tt class="docutils literal docutils literal docutils literal"><span class="pre">Keep-Alive</span></tt> Headers</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/useragent.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/keepalive.html" title="1.2.2.6. keepalive – Handler for HTTP Keep-Alive Headers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/cookies.html" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

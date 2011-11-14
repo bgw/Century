@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.1. The Plugin Architechure &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" />
+    <link rel="next" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable" href="../plugins/decorators.html" />
+    <link rel="prev" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/decorators.html" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/index.html" title="1.2.2. plugins – Extending the browser Module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" accesskey="U">1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins">
+<span id="the-plugin-architechure"></span><h1>1.2.2.1. The Plugin Architechure<a class="headerlink" href="#module-lib.browser.plugins" title="Permalink to this headline">¶</a></h1>
+<p>Knowing the ins-and-outs of this module is probably not very useful, but it
+is probably good to have a basic understanding of how the
+<a class="reference internal" href="../browser.html#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.Browser</span></tt></a>&#8216;s plugin system works.</p>
+<dl class="class">
+<dt id="lib.browser.plugins.BaseBrowserPlugin">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.</tt><tt class="descname">BaseBrowserPlugin</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../browser.html#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.Browser</span></tt></a> plugin is defined as a set of patches to
+be applied to a Browser object. This class defines a base for browser
+plugins.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up everything the plugin needs. Subclasses should be sure to
+call this.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.overrides">
+<tt class="descname">overrides</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.overrides" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of methods overriden by this plugin instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.extensions">
+<tt class="descname">extensions</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of methods adding to the browser&#8217;s internal list of methods, but
+not overriding pre-existing methods. Note that if two functions attempt
+to extend with methods of the same name, <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a> will throw
+an exception.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.property_extensions">
+<tt class="descname">property_extensions</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.property_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like <a class="reference internal" href="#lib.browser.plugins.BaseBrowserPlugin.extensions" title="lib.browser.plugins.BaseBrowserPlugin.extensions"><tt class="xref py py-attr docutils literal"><span class="pre">extensions</span></tt></a>, but refering to properties instead.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.handlers">
+<tt class="descname">handlers</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of objects extended from <tt class="xref py py-class docutils literal"><span class="pre">urllib.request.BaseHandler</span></tt>
+to add to the browser&#8217;s interal <tt class="xref py py-class docutils literal"><span class="pre">urllib.request.OpenerDirector</span></tt>
+instance automatically.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.BaseBrowserPlugin.addheaders">
+<tt class="descname">addheaders</tt><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin.addheaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of headers to add to the browser&#8217;s internal
+<tt class="xref py py-class docutils literal"><span class="pre">urllib.request.OpenerDirector</span></tt> instance automatically, using
+<tt class="xref py py-meth docutils literal"><span class="pre">urllib.request.OpenerDirector.addheaders()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.BaseBrowserPlugin._get_instance_functions">
+<tt class="descname">_get_instance_functions</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin._get_instance_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the object&#8217;s list of methods, useful for the
+<a class="reference internal" href="#lib.browser.plugins.BaseBrowserPlugin._load_list" title="lib.browser.plugins.BaseBrowserPlugin._load_list"><tt class="xref py py-meth docutils literal"><span class="pre">_load_list()</span></tt></a> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.BaseBrowserPlugin._load_list">
+<tt class="descname">_load_list</tt><big>(</big><em>marker</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.BaseBrowserPlugin._load_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all methods with a specific marker and returns them</p>
+<p>Keyword arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">marker</span></tt></dt>
+<dd>A string representing the marker to look for on each function. If
+the value of this marker is <cite>True</cite>, the value is returned.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lib.browser.plugins.Pluggable">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.</tt><tt class="descname">Pluggable</tt><big>(</big><em>*plugins</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in plugins, allowing one to configure an object on the fly, with a
+strutured monkey-patching like system</p>
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>*plugins</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up everything the object needs, and adds plugins specified by
+the positional arguments (they can be added later too). Subclasses
+should be sure to call this.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="lib.browser.plugins.Pluggable.plugins">
+<tt class="descname">plugins</tt><a class="headerlink" href="#lib.browser.plugins.Pluggable.plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of plugins already loaded into the <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable._register_plugin_attribute">
+<tt class="descname">_register_plugin_attribute</tt><big>(</big><em>name</em>, <em>handler</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable._register_plugin_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.__getattr__">
+<tt class="descname">__getattr__</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to intercept getting attributes with the <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a>
+instance, translating them to alternate &#8220;extended&#8221; attributes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.__setattr__">
+<tt class="descname">__setattr__</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to intercept setting attributes with the <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a>
+instance, translating them to alternate &#8220;extended&#8221; attributes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.load_plugins">
+<tt class="descname">load_plugins</tt><big>(</big><em>*plugins</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.load_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads in one or a group of plugins. Rather than overriding this,
+subclasses should use the
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.plugin_attribute" title="lib.browser.plugins.decorators.plugin_attribute"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.plugin_attribute()</span></tt></a> and
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.plugin_attribute_handler" title="lib.browser.plugins.decorators.plugin_attribute_handler"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.plugin_attribute_handler()</span></tt></a>
+decorators. Attributes are loaded from plugins, and then parsed to be
+used in extending the <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a> subclass&#8217; object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.overrides">
+<tt class="descname">overrides</tt><big>(</big><em>name</em>, <em>overriding_function</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.overrides" title="Permalink to this definition">¶</a></dt>
+<dd><p>The handler for the <a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.override" title="lib.browser.plugins.decorators.override"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.override()</span></tt></a>
+decorator. <tt class="docutils literal"><span class="pre">name</span></tt> is the name of the property it is set to override,
+<tt class="docutils literal"><span class="pre">overriding_function</span></tt> is the function that we should set to that name.
+It should take at least 2 arguments (in addition to <tt class="docutils literal"><span class="pre">self</span></tt>, which
+would refer to the plugin instance), the browser instance and the
+function object that is being overridden.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.extensions">
+<tt class="descname">extensions</tt><big>(</big><em>name</em>, <em>extending_function</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The handler for the <a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.extension" title="lib.browser.plugins.decorators.extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.extension()</span></tt></a>
+decorator. <tt class="docutils literal"><span class="pre">name</span></tt> is the name of the property it is set to extension,
+<tt class="docutils literal"><span class="pre">extending_function</span></tt> is the function that we should set to that name.
+It should take the browser instance as an argument in addition to
+<tt class="docutils literal"><span class="pre">self</span></tt>, which would refer to the plugin instance. Any additional
+arguments are passed through.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.Pluggable.property_extensions">
+<tt class="descname">property_extensions</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.Pluggable.property_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The handler for the
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.property_extension" title="lib.browser.plugins.decorators.property_extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.property_extension()</span></tt></a> decorator.
+Adds a virtual property with the given <tt class="docutils literal"><span class="pre">name</span></tt>, by calling <tt class="docutils literal"><span class="pre">value</span></tt>
+with the browser instance and recieving a property object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">extensions</tt><big>(</big><em>name</em>, <em>extending_function</em><big>)</big></dt>
+<dd><p>The handler for the <a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.extension" title="lib.browser.plugins.decorators.extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.extension()</span></tt></a>
+decorator. <tt class="docutils literal"><span class="pre">name</span></tt> is the name of the property it is set to extension,
+<tt class="docutils literal"><span class="pre">extending_function</span></tt> is the function that we should set to that name.
+It should take the browser instance as an argument in addition to
+<tt class="docutils literal"><span class="pre">self</span></tt>, which would refer to the plugin instance. Any additional
+arguments are passed through.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">load_plugins</tt><big>(</big><em>*plugins</em><big>)</big></dt>
+<dd><p>Loads in one or a group of plugins. Rather than overriding this,
+subclasses should use the
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.plugin_attribute" title="lib.browser.plugins.decorators.plugin_attribute"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.plugin_attribute()</span></tt></a> and
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.plugin_attribute_handler" title="lib.browser.plugins.decorators.plugin_attribute_handler"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.plugin_attribute_handler()</span></tt></a>
+decorators. Attributes are loaded from plugins, and then parsed to be
+used in extending the <a class="reference internal" href="#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">Pluggable</span></tt></a> subclass&#8217; object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">overrides</tt><big>(</big><em>name</em>, <em>overriding_function</em><big>)</big></dt>
+<dd><p>The handler for the <a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.override" title="lib.browser.plugins.decorators.override"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.override()</span></tt></a>
+decorator. <tt class="docutils literal"><span class="pre">name</span></tt> is the name of the property it is set to override,
+<tt class="docutils literal"><span class="pre">overriding_function</span></tt> is the function that we should set to that name.
+It should take at least 2 arguments (in addition to <tt class="docutils literal"><span class="pre">self</span></tt>, which
+would refer to the plugin instance), the browser instance and the
+function object that is being overridden.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">property_extensions</tt><big>(</big><em>name</em>, <em>value</em><big>)</big></dt>
+<dd><p>The handler for the
+<a class="reference internal" href="../plugins/decorators.html#lib.browser.plugins.decorators.property_extension" title="lib.browser.plugins.decorators.property_extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.property_extension()</span></tt></a> decorator.
+Adds a virtual property with the given <tt class="docutils literal"><span class="pre">name</span></tt>, by calling <tt class="docutils literal"><span class="pre">value</span></tt>
+with the browser instance and recieving a property object.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugins/index.html"
+                        title="previous chapter">1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/decorators.html"
+                        title="next chapter">1.2.2.2. <tt class="docutils literal docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal docutils literal"><span class="pre">Pluggable</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/plugin_arch.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/decorators.html" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/index.html" title="1.2.2. plugins – Extending the browser Module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

@@ -1,88 +1,185 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
 
-  <title>CenturyDeveloper/Century @ GitHub</title>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #a35614;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #5ca9eb; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #5ca9eb; }
-    h3 { text-align: center; color: #5ca9eb; }
-    a { color: #5ca9eb; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<body>
-  <a href="https://github.com/CenturyDeveloper/Century"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
-
-    <div class="download">
-      <a href="https://github.com/CenturyDeveloper/Century/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/CenturyDeveloper/Century/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="https://github.com/CenturyDeveloper/Century">Century</a>
-      <span class="small">by <a href="https://github.com/CenturyDeveloper">CenturyDeveloper</a></span></h1>
-
-    <div class="description">
-      A Library to Help with Automating and Pulling Data from the Univerisity of Florida's (UF) Website
-    </div>
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
+    <title>Century Library Documentation &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="#" />
+    <link rel="next" title="1. Web-Browser Services" href="library/browser.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="library/browser.html" title="1. Web-Browser Services"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Century 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
 
-    
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="century-library-documentation">
+<h1>Century Library Documentation<a class="headerlink" href="#century-library-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-century">
+<h2>What is Century?<a class="headerlink" href="#what-is-century" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s say you&#8217;d like to write a simple script to work with a certain page on the
+University of Florida website. What may seem like a simple task could very well
+prove quite complicated: you&#8217;ll have to handle authentication, cookies,
+redirects, and often times broken html. When it comes down to it, UF&#8217;s webpages
+don&#8217;t play well with scripting.</p>
+<p>Century handles automation of the UF site, and does it for you with an
+extensible, documented API. Now you can write that app, without worrying about
+where you&#8217;re going to get the data from. Tasks that took a few thousand lines of
+code now only take a couple hundred. We&#8217;re here to make what should&#8217;ve been an
+open system, open.</p>
+<p>Please note that we are not affiliated with the University of Florida in any
+way. This API is unofficial, and unsupported by UF. If you manage to get in
+trouble while using it, it&#8217;s your own fault.</p>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="library/browser.html">1. Web-Browser Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library/browser.html#module-lib.browser">1.1. <tt class="docutils literal"><span class="pre">browser</span></tt> &#8211; Webbrowser-like Extensable State Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library/browser.html#parsers-and-plugins">1.2. Parsers and Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="library/parsers.html">1.2.1. <tt class="docutils literal"><span class="pre">parsers</span></tt> &#8211; Generic Webpage Parsers for the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library/plugins/index.html">1.2.2. <tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal"><span class="pre">browser</span></tt> Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/plugin_arch.html">1.2.2.1. The Plugin Architechure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/decorators.html">1.2.2.2. <tt class="docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal"><span class="pre">Pluggable</span></tt></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/decorators.html#plugin-related-decorators">1.2.2.2.1. Plugin Related Decorators</a></li>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/decorators.html#pluggable-related-decorators">1.2.2.2.2. <tt class="docutils literal"><span class="pre">Pluggable</span></tt> Related Decorators</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/redirect.html">1.2.2.3. <tt class="docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/cookies.html">1.2.2.4. <tt class="docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/useragent.html">1.2.2.5. <tt class="docutils literal"><span class="pre">useragent</span></tt> &#8211; HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> Spoofing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/keepalive.html">1.2.2.6. <tt class="docutils literal"><span class="pre">keepalive</span></tt> &#8211; Handler for HTTP <tt class="docutils literal"><span class="pre">Keep-Alive</span></tt> Headers</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/keepalive.html#module-lib.browser.plugins.keepalive">1.2.2.6.1. <tt class="docutils literal"><span class="pre">keepalive</span></tt></a></li>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/keepalive.html#module-lib.browser.plugins.keepalive.handler">1.2.2.6.2. <tt class="docutils literal"><span class="pre">keepalive.handler</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="library/plugins/uf/index.html">1.2.2.7. <tt class="docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/uf/login.html">1.2.2.7.1. <tt class="docutils literal"><span class="pre">login</span></tt> &#8211; Automatic and Semi-Automatic Gatorlink Login Handling</a></li>
+<li class="toctree-l5"><a class="reference internal" href="library/plugins/uf/isis.html">1.2.2.7.2. <tt class="docutils literal"><span class="pre">isis</span></tt> &#8211; Tools for Working With ISIS (Integrated Student Information System)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library/tasks/index.html">2. Task-Oriented Services</a></li>
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+</div>
 
-    
 
-    
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Century Library Documentation</a><ul>
+<li><a class="reference internal" href="#what-is-century">What is Century?</a></li>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-    
-      <h2>Authors</h2>
-      <p>Century Developer (centurydevteam@gmail.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p> (centurydevteam@gmail.com)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/CenturyDeveloper/Century/zipball/master">zip</a> or
-      <a href="https://github.com/CenturyDeveloper/Century/tarball/master">tar formats.
+  <h4>Next topic</h4>
+  <p class="topless"><a href="library/browser.html"
+                        title="next chapter">1. Web-Browser Services</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
     </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/CenturyDeveloper/Century</pre>
-    </p>
-
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="library/browser.html" title="1. Web-Browser Services"
+             >next</a> |</li>
+        <li><a href="#">Century 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
     <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/CenturyDeveloper/Century">CenturyDeveloper/Century</a>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
     </div>
-
-  </div>
-
-</body>
+  </body>
 </html>

@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.3. redirect – Base Plugin Class for Handling Redirections &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" />
+    <link rel="next" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies" href="../plugins/cookies.html" />
+    <link rel="prev" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable" href="../plugins/decorators.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/cookies.html" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/decorators.html" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" accesskey="U">1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins.redirect">
+<span id="redirect-base-plugin-class-for-handling-redirections"></span><h1>1.2.2.3. <tt class="docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections<a class="headerlink" href="#module-lib.browser.plugins.redirect" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.redirect.</tt><tt class="descname">BaseRedirectionPlugin</tt><big>(</big><em>url_match=None</em>, <em>page_match=None</em>, <em>parser=&lt;function passthrough_str at 0x3bf31e8&gt;</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a simple framework for handling pages that require a redirection
+with a hope to reduce the necessity for so much boilerplate code. You don&#8217;t
+have to extend this class to handle redirections, but it might make things
+easier.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>url_match=None</em>, <em>page_match=None</em>, <em>parser=&lt;function passthrough_str at 0x3bf31e8&gt;</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keyword arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">url_match</span></tt></dt>
+<dd>A string, regex object (using <tt class="docutils literal"><span class="pre">match</span></tt>), or callable used to check
+if a page url can potentially be a page that needs redirection.</dd>
+<dt><tt class="docutils literal"><span class="pre">page_match</span></tt></dt>
+<dd>A string, regex object (using <tt class="docutils literal"><span class="pre">match</span></tt>), or callable used to check
+if a page source (decoded by parser) can potentially be a page that
+needs redirection.</dd>
+<dt><tt class="docutils literal"><span class="pre">parser</span></tt></dt>
+<dd>A parser function that should be applied to the page data before
+sending it to <a class="reference internal" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect" title="lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect"><tt class="xref py py-meth docutils literal"><span class="pre">handle_redirect()</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin._is_valid_url">
+<tt class="descname">_is_valid_url</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin._is_valid_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>One can override this function as an alternative to providing a
+<tt class="docutils literal"><span class="pre">url_match</span></tt> value via the constructor. If neither is specified, this
+just returns <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin._is_valid_page">
+<tt class="descname">_is_valid_page</tt><big>(</big><em>source</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin._is_valid_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>One can override this function as an alternative to providing a
+<tt class="docutils literal"><span class="pre">page_match</span></tt> value via the constructor. If neither is specified, this
+just returns <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin.load_page">
+<tt class="descname">load_page</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>base_function</em>, <em>url</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.load_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <a class="reference internal" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect" title="lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect"><tt class="xref py py-meth docutils literal"><span class="pre">handle_redirect()</span></tt></a> if there is both a url and page match,
+otherwise, it simply passes through.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect">
+<tt class="descname">handle_redirect</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>url</em>, <em>source</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should return the value given by <tt class="docutils literal"><span class="pre">browser.load_page</span></tt> with the
+additional arguments, <tt class="docutils literal"><span class="pre">*args</span></tt> and <tt class="docutils literal"><span class="pre">**kwargs</span></tt> (modified if desired).
+If it returns <tt class="docutils literal"><span class="pre">None</span></tt> or raises a <a class="reference internal" href="#lib.browser.plugins.redirect.PageRedirectionError" title="lib.browser.plugins.redirect.PageRedirectionError"><tt class="xref py py-class docutils literal"><span class="pre">PageRedirectionError</span></tt></a>, the
+redirect is canceled. Here&#8217;s an example handle_redirect method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">handle_redirect</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">browser</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">parsed</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="s">&quot;For this example, we&#39;ll say the plugin&#39;s parser is lxml&quot;</span>
+    <span class="k">return</span> <span class="n">browser</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&quot;//a&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">],</span>
+                             <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">handle_redirect</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>url</em>, <em>source</em>, <em>*args</em>, <em>**kwargs</em><big>)</big></dt>
+<dd><p>Should return the value given by <tt class="docutils literal"><span class="pre">browser.load_page</span></tt> with the
+additional arguments, <tt class="docutils literal"><span class="pre">*args</span></tt> and <tt class="docutils literal"><span class="pre">**kwargs</span></tt> (modified if desired).
+If it returns <tt class="docutils literal"><span class="pre">None</span></tt> or raises a <a class="reference internal" href="#lib.browser.plugins.redirect.PageRedirectionError" title="lib.browser.plugins.redirect.PageRedirectionError"><tt class="xref py py-class docutils literal"><span class="pre">PageRedirectionError</span></tt></a>, the
+redirect is canceled. Here&#8217;s an example handle_redirect method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">handle_redirect</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">browser</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">parsed</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="s">&quot;For this example, we&#39;ll say the plugin&#39;s parser is lxml&quot;</span>
+    <span class="k">return</span> <span class="n">browser</span><span class="o">.</span><span class="n">load_page</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&quot;//a&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;href&quot;</span><span class="p">],</span>
+                             <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">load_page</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>base_function</em>, <em>url</em>, <em>*args</em>, <em>**kwargs</em><big>)</big></dt>
+<dd><p>Calls <a class="reference internal" href="#lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect" title="lib.browser.plugins.redirect.BaseRedirectionPlugin.handle_redirect"><tt class="xref py py-meth docutils literal"><span class="pre">handle_redirect()</span></tt></a> if there is both a url and page match,
+otherwise, it simply passes through.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lib.browser.plugins.redirect.BrowserMetaRefreshHander">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.redirect.</tt><tt class="descname">BrowserMetaRefreshHander</tt><big>(</big><em>max_seconds=None</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BrowserMetaRefreshHander" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles pages using the deprecated html <a class="reference external" href="http://www.w3.org/TR/WCAG10-HTML-TECHS/#meta-element">meta refresh</a> feature.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BrowserMetaRefreshHander.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>max_seconds=None</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BrowserMetaRefreshHander.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.redirect.BrowserMetaRefreshHander.handle_redirect">
+<tt class="descname">handle_redirect</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>base_url</em>, <em>source</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.BrowserMetaRefreshHander.handle_redirect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lib.browser.plugins.redirect.PageRedirectionError">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.redirect.</tt><tt class="descname">PageRedirectionError</tt><a class="headerlink" href="#lib.browser.plugins.redirect.PageRedirectionError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="lib.browser.plugins.redirect.PageRedirectionError.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.redirect.PageRedirectionError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugins/decorators.html"
+                        title="previous chapter">1.2.2.2. <tt class="docutils literal docutils literal docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal docutils literal docutils literal"><span class="pre">Pluggable</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/cookies.html"
+                        title="next chapter">1.2.2.4. <tt class="docutils literal docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/redirect.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/cookies.html" title="1.2.2.4. cookies – Automatic Handling of Browser Cookies"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/decorators.html" title="1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.2. decorators – Decorators for Writing Plugins and Extending Pluggable &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1.2.2. plugins – Extending the browser Module" href="../plugins/index.html" />
+    <link rel="next" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections" href="../plugins/redirect.html" />
+    <link rel="prev" title="1.2.2.1. The Plugin Architechure" href="../plugins/plugin_arch.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/redirect.html" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/plugin_arch.html" title="1.2.2.1. The Plugin Architechure"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" accesskey="U">1.2.2. <tt class="docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins.decorators">
+<span id="decorators-decorators-for-writing-plugins-and-extending-pluggable"></span><h1>1.2.2.2. <tt class="docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal"><span class="pre">Pluggable</span></tt><a class="headerlink" href="#module-lib.browser.plugins.decorators" title="Permalink to this headline">¶</a></h1>
+<p>A set of decorator functions designed to make building a plugin or extending
+<a class="reference internal" href="../plugins/plugin_arch.html#lib.browser.plugins.Pluggable" title="lib.browser.plugins.Pluggable"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.plugins.Pluggable</span></tt></a> a snap. If you&#8217;re writing either, this is
+the API you&#8217;ll probably work with the most.</p>
+<div class="section" id="plugin-related-decorators">
+<h2>1.2.2.2.1. Plugin Related Decorators<a class="headerlink" href="#plugin-related-decorators" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="lib.browser.plugins.decorators.override">
+<tt class="descclassname">lib.browser.plugins.decorators.</tt><tt class="descname">override</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.decorators.override" title="Permalink to this definition">¶</a></dt>
+<dd><p>When given a function, adds an attribute to the function,
+<tt class="docutils literal"><span class="pre">is_override</span></tt>. An overriding function should take 3 arguments, <tt class="docutils literal"><span class="pre">self</span></tt>
+(or <tt class="docutils literal"><span class="pre">plugin</span></tt>), <tt class="docutils literal"><span class="pre">browser</span></tt>, and an argument representing the function they
+are overriding.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@override</span>
+<span class="k">def</span> <span class="nf">load_page</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">browser</span><span class="p">,</span> <span class="n">old_function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c"># do something here</span>
+    <span class="k">return</span> <span class="n">old_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.plugins.decorators.extension">
+<tt class="descclassname">lib.browser.plugins.decorators.</tt><tt class="descname">extension</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.decorators.extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>When given a function, adds an attribute to the function,
+<tt class="docutils literal"><span class="pre">is_extension</span></tt>. An extending function should take 2 arguments, <tt class="docutils literal"><span class="pre">self</span></tt>
+(or <tt class="docutils literal"><span class="pre">plugin</span></tt>) and <tt class="docutils literal"><span class="pre">browser</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@extension</span>
+<span class="k">def</span> <span class="nf">new_functionality</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">browser</span><span class="p">,</span> <span class="n">first_argument</span><span class="p">,</span> <span class="n">second_argument</span><span class="p">):</span>
+    <span class="c"># do something here</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.plugins.decorators.property_extension">
+<tt class="descclassname">lib.browser.plugins.decorators.</tt><tt class="descname">property_extension</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.decorators.property_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>When given a function, adds an attribute to the function,
+<tt class="docutils literal"><span class="pre">is_property_extension</span></tt>. The function should take 2 arguments, <tt class="docutils literal"><span class="pre">self</span></tt>
+(or <tt class="docutils literal"><span class="pre">plugin</span></tt>) and <tt class="docutils literal"><span class="pre">browser</span></tt>. It should return an instance of
+<tt class="docutils literal"><span class="pre">property</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@property_extension</span>
+<span class="k">def</span> <span class="nf">tribbles_count</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">browser</span><span class="p">):</span>
+    
+    <span class="n">number</span> <span class="o">=</span> <span class="mi">9001</span>
+    
+    <span class="k">def</span> <span class="nf">getter</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">number</span>
+    
+    <span class="k">def</span> <span class="nf">setter</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">9000</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">value</span>
+    
+    <span class="k">return</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter</span><span class="p">,</span> <span class="n">setter</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="pluggable-related-decorators">
+<h2>1.2.2.2.2. <tt class="docutils literal"><span class="pre">Pluggable</span></tt> Related Decorators<a class="headerlink" href="#pluggable-related-decorators" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="lib.browser.plugins.decorators.plugin_attribute">
+<tt class="descclassname">lib.browser.plugins.decorators.</tt><tt class="descname">plugin_attribute</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.decorators.plugin_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator which makes the passed function a handler for an attribute
+type with it&#8217;s name. A handler should take both name and value arguments, or
+just a value argument if the plugin&#8217;s attribute is just a list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lib.browser.plugins.decorators.plugin_attribute_handler">
+<tt class="descclassname">lib.browser.plugins.decorators.</tt><tt class="descname">plugin_attribute_handler</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.decorators.plugin_attribute_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator factory, allowing you to set multiple handler functions for
+the same attribute type. A handler should take both name and value
+arguments, or just a value argument if the plugin&#8217;s attribute is just a
+list.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.2.2.2. <tt class="docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal"><span class="pre">Pluggable</span></tt></a><ul>
+<li><a class="reference internal" href="#plugin-related-decorators">1.2.2.2.1. Plugin Related Decorators</a></li>
+<li><a class="reference internal" href="#pluggable-related-decorators">1.2.2.2.2. <tt class="docutils literal"><span class="pre">Pluggable</span></tt> Related Decorators</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plugins/plugin_arch.html"
+                        title="previous chapter">1.2.2.1. The Plugin Architechure</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/redirect.html"
+                        title="next chapter">1.2.2.3. <tt class="docutils literal docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/decorators.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/redirect.html" title="1.2.2.3. redirect – Base Plugin Class for Handling Redirections"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../plugins/plugin_arch.html" title="1.2.2.1. The Plugin Architechure"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

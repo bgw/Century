@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2.7.1. login – Automatic and Semi-Automatic Gatorlink Login Handling &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="1.2.2.7. plugins.uf – UF-Specific Plugins" href="../uf/index.html" />
+    <link rel="next" title="1.2.2.7.2. isis – Tools for Working With ISIS (Integrated Student Information System)" href="../uf/isis.html" />
+    <link rel="prev" title="1.2.2.7. plugins.uf – UF-Specific Plugins" href="../uf/index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../uf/isis.html" title="1.2.2.7.2. isis – Tools for Working With ISIS (Integrated Student Information System)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../uf/index.html" title="1.2.2.7. plugins.uf – UF-Specific Plugins"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li>
+          <li><a href="../uf/index.html" accesskey="U">1.2.2.7. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-lib.browser.plugins.uf.login">
+<span id="login-automatic-and-semi-automatic-gatorlink-login-handling"></span><h1>1.2.2.7.1. <tt class="docutils literal"><span class="pre">login</span></tt> &#8211; Automatic and Semi-Automatic Gatorlink Login Handling<a class="headerlink" href="#module-lib.browser.plugins.uf.login" title="Permalink to this headline">¶</a></h1>
+<p>A module for handling
+<a class="reference external" href="https://www.youtube.com/watch?v=HlsnToZLD3k">Shibboleth</a> related GatorLink
+logins.</p>
+<dl class="class">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.uf.login.</tt><tt class="descname">LoginBrowserPlugin</tt><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can handle pages asking for your GatorLink login information using the
+standard Shibboleth-based form. It works in 99% of login cases, and can even
+be set up to enter one&#8217;s password completely automatically, acting like a
+simple redirect.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a plugin instance, without any login information. To
+enable automatic logins, call <a class="reference internal" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin" title="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin"><tt class="xref py py-meth docutils literal"><span class="pre">uf_set_autologin()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_login">
+<tt class="descname">uf_login</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>username</em>, <em>password</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../../plugins/decorators.html#lib.browser.plugins.decorators.extension" title="lib.browser.plugins.decorators.extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.extension()</span></tt></a> that will submit a
+HTTP POST Request to login. Please note that <tt class="xref py py-mod docutils literal"><span class="pre">urllib</span></tt> (or
+<tt class="xref py py-mod docutils literal"><span class="pre">urllib2</span></tt> in Python 2) does not perform SSL certificate
+authentication, so while the connection will be done over HTTPS, an
+active man-in-the-middle attack could potentially compromise your
+password, however the chance of that is quite rare. This function does
+not load the login page, nor does it need to, it simply submits the
+login form as though it had already loaded the login page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_logout">
+<tt class="descname">uf_logout</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>refresh=False</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables the auto-login system, and logs you out (by simply deleting
+the session cookie). The <tt class="docutils literal"><span class="pre">refresh</span></tt> argument can be used to call
+<a class="reference internal" href="../../browser.html#lib.browser.Browser.refresh" title="lib.browser.Browser.refresh"><tt class="xref py py-meth docutils literal"><span class="pre">lib.browser.Browser.refresh()</span></tt></a>, returning the new result.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin">
+<tt class="descname">uf_set_autologin</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>username=None</em>, <em>password=None</em>, <em>enabled=True</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../../plugins/decorators.html#lib.browser.plugins.decorators.extension" title="lib.browser.plugins.decorators.extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.extension()</span></tt></a> that can be used
+to enable or disable automatic login handling.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_username">
+<tt class="descname">uf_username</tt><big>(</big><em>plugin</em>, <em>browser</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../../plugins/decorators.html#lib.browser.plugins.decorators.property_extension" title="lib.browser.plugins.decorators.property_extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.property_extension()</span></tt></a>
+representing the plugin&#8217;s autologin username. Note that simply setting
+this does not enable autologin, that must be done with
+<a class="reference internal" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin" title="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin"><tt class="xref py py-meth docutils literal"><span class="pre">uf_set_autologin()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_password">
+<tt class="descname">uf_password</tt><big>(</big><em>plugin</em>, <em>browser</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../../plugins/decorators.html#lib.browser.plugins.decorators.property_extension" title="lib.browser.plugins.decorators.property_extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.property_extension()</span></tt></a>
+representing the plugin&#8217;s autologin password. Note that simply setting
+this does not enable autologin, that must be done with
+<a class="reference internal" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin" title="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin"><tt class="xref py py-meth docutils literal"><span class="pre">uf_set_autologin()</span></tt></a>. As is the case with any tool using your
+password, make sure you do not load any rouge, untrusted plugins, as one
+could potentially steal your plaintext password with it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_session_cookie">
+<tt class="descname">uf_session_cookie</tt><big>(</big><em>plugin</em>, <em>browser</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.uf_session_cookie" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../../plugins/decorators.html#lib.browser.plugins.decorators.property_extension" title="lib.browser.plugins.decorators.property_extension"><tt class="xref py py-func docutils literal"><span class="pre">lib.browser.plugins.decorators.property_extension()</span></tt></a> that can
+get (but not set) a <tt class="xref py py-class docutils literal"><span class="pre">http.cookiejar.Cookie</span></tt> object containing the
+login state. If we have not not logged in, or our session is expired,
+gives <tt class="docutils literal"><span class="pre">None</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginBrowserPlugin.handle_redirect">
+<tt class="descname">handle_redirect</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>base_url</em>, <em>source</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin.handle_redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <tt class="docutils literal"><span class="pre">plugin</span></tt>&#8216;s <tt class="xref py py-attr docutils literal"><span class="pre">_auto_login</span></tt> is <tt class="docutils literal"><span class="pre">True</span></tt>, handles a login page
+automatically.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="lib.browser.plugins.uf.login.LoginContinueRedirect">
+<em class="property">class </em><tt class="descclassname">lib.browser.plugins.uf.login.</tt><tt class="descname">LoginContinueRedirect</tt><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginContinueRedirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles Shibboleth redirection pages that need a specially-formed POST
+message to continue through. This is normally handed via JavaScript, but
+we&#8217;ll just handle this ourselves. This should be used with
+<a class="reference internal" href="#lib.browser.plugins.uf.login.LoginBrowserPlugin" title="lib.browser.plugins.uf.login.LoginBrowserPlugin"><tt class="xref py py-class docutils literal"><span class="pre">LoginBrowserPlugin</span></tt></a>.</p>
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginContinueRedirect.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginContinueRedirect.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lib.browser.plugins.uf.login.LoginContinueRedirect.handle_redirect">
+<tt class="descname">handle_redirect</tt><big>(</big><em>plugin</em>, <em>browser</em>, <em>base_url</em>, <em>source</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#lib.browser.plugins.uf.login.LoginContinueRedirect.handle_redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function that does the magic of pulling the form data from the
+Shibboleth redirection page, and resubmits it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../uf/index.html"
+                        title="previous chapter">1.2.2.7. <tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../uf/isis.html"
+                        title="next chapter">1.2.2.7.2. <tt class="docutils literal docutils literal"><span class="pre">isis</span></tt> &#8211; Tools for Working With ISIS (Integrated Student Information System)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/library/plugins/uf/login.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../uf/isis.html" title="1.2.2.7.2. isis – Tools for Working With ISIS (Integrated Student Information System)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../uf/index.html" title="1.2.2.7. plugins.uf – UF-Specific Plugins"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../../browser.html" >1. Web-Browser Services</a> &raquo;</li>
+          <li><a href="../../plugins/index.html" >1.2.2. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a> &raquo;</li>
+          <li><a href="../uf/index.html" >1.2.2.7. <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

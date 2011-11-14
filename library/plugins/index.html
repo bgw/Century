@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2.2. plugins – Extending the browser Module &mdash; Century 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/century_favicon.ico"/>
+    <link rel="top" title="Century 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="1. Web-Browser Services" href="../browser.html" />
+    <link rel="next" title="1.2.2.1. The Plugin Architechure" href="../plugins/plugin_arch.html" />
+    <link rel="prev" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module" href="../parsers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/plugin_arch.html" title="1.2.2.1. The Plugin Architechure"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../parsers.html" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" accesskey="U">1. Web-Browser Services</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="plugins-extending-the-browser-module">
+<h1>1.2.2. <tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; Extending the <tt class="docutils literal"><span class="pre">browser</span></tt> Module<a class="headerlink" href="#plugins-extending-the-browser-module" title="Permalink to this headline">¶</a></h1>
+<p>Plugins are things that add functionality to the browser. Some of them are not
+site-specific, and could be used in a variety of applications, such as
+the <a class="reference internal" href="../plugins/cookies.html#module-lib.browser.plugins.cookies" title="lib.browser.plugins.cookies"><tt class="xref py py-mod docutils literal"><span class="pre">lib.browser.plugins.cookies</span></tt></a>, or the
+<a class="reference internal" href="../plugins/keepalive.html#module-lib.browser.plugins.keepalive" title="lib.browser.plugins.keepalive"><tt class="xref py py-mod docutils literal"><span class="pre">lib.browser.plugins.keepalive</span></tt></a> plugins. UF-specific plugins are kept
+within the <tt class="xref py py-mod docutils literal"><span class="pre">lib.browser.plugins.uf</span></tt> package. Plugins are different from
+<a class="reference internal" href="index.html#module-lib.tasks" title="lib.tasks"><tt class="xref py py-mod docutils literal"><span class="pre">lib.tasks</span></tt></a>, for a few reasons:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A plugin has direct access to more of the browser&#8217;s features.</li>
+<li>A plugin typically does something simpler than a task.</li>
+<li>A plugin has to be careful about what it overrides, as it could create
+serious problems if poorly implemented.</li>
+</ul>
+</div></blockquote>
+<p>If you don&#8217;t know what you&#8217;re doing, but you want to add more functionality to
+the library, I&#8217;d suggest writing a task, but for certain things, a plugin
+becomes a more elegant solution.</p>
+<p>Plugins for <a class="reference internal" href="../browser.html#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.Browser</span></tt></a> can do a variety of things, such as
+adding new methods to a <a class="reference internal" href="../browser.html#lib.browser.Browser" title="lib.browser.Browser"><tt class="xref py py-class docutils literal"><span class="pre">lib.browser.Browser</span></tt></a> instance, adding new
+properties, overriding old methods or properties, adding handlers, and adding
+headers to future HTTP requests. The <a class="reference internal" href="../plugins/decorators.html#module-lib.browser.plugins.decorators" title="lib.browser.plugins.decorators"><tt class="xref py py-mod docutils literal"><span class="pre">lib.browser.plugins.decorators</span></tt></a>
+module provides some useful decorators for making this happen.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/plugin_arch.html">1.2.2.1. The Plugin Architechure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/decorators.html">1.2.2.2. <tt class="docutils literal"><span class="pre">decorators</span></tt> &#8211; Decorators for Writing Plugins and Extending <tt class="docutils literal"><span class="pre">Pluggable</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/decorators.html#plugin-related-decorators">1.2.2.2.1. Plugin Related Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/decorators.html#pluggable-related-decorators">1.2.2.2.2. <tt class="docutils literal"><span class="pre">Pluggable</span></tt> Related Decorators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/redirect.html">1.2.2.3. <tt class="docutils literal"><span class="pre">redirect</span></tt> &#8211; Base Plugin Class for Handling Redirections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/cookies.html">1.2.2.4. <tt class="docutils literal"><span class="pre">cookies</span></tt> &#8211; Automatic Handling of Browser Cookies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/useragent.html">1.2.2.5. <tt class="docutils literal"><span class="pre">useragent</span></tt> &#8211; HTTP <tt class="docutils literal"><span class="pre">user-agent</span></tt> Spoofing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/keepalive.html">1.2.2.6. <tt class="docutils literal"><span class="pre">keepalive</span></tt> &#8211; Handler for HTTP <tt class="docutils literal"><span class="pre">Keep-Alive</span></tt> Headers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/keepalive.html#module-lib.browser.plugins.keepalive">1.2.2.6.1. <tt class="docutils literal"><span class="pre">keepalive</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/keepalive.html#module-lib.browser.plugins.keepalive.handler">1.2.2.6.2. <tt class="docutils literal"><span class="pre">keepalive.handler</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/uf/index.html">1.2.2.7. <tt class="docutils literal"><span class="pre">plugins.uf</span></tt> &#8211; UF-Specific Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/uf/login.html">1.2.2.7.1. <tt class="docutils literal"><span class="pre">login</span></tt> &#8211; Automatic and Semi-Automatic Gatorlink Login Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/uf/isis.html">1.2.2.7.2. <tt class="docutils literal"><span class="pre">isis</span></tt> &#8211; Tools for Working With ISIS (Integrated Student Information System)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/century_sidebar.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../parsers.html"
+                        title="previous chapter">1.2.1. <tt class="docutils literal docutils literal docutils literal"><span class="pre">parsers</span></tt> &#8211; Generic Webpage Parsers for the <tt class="docutils literal docutils literal docutils literal"><span class="pre">browser</span></tt> Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../plugins/plugin_arch.html"
+                        title="next chapter">1.2.2.1. The Plugin Architechure</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/library/plugins/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../plugins/plugin_arch.html" title="1.2.2.1. The Plugin Architechure"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../parsers.html" title="1.2.1. parsers – Generic Webpage Parsers for the browser Module"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Century 1.0 documentation</a> &raquo;</li>
+          <li><a href="../browser.html" >1. Web-Browser Services</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>
