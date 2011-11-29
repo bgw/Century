@@ -1,5 +1,6 @@
 from ...browser import parsers
 from .. import *
+from ..isis import table_to_list
 
 import lxml.html
 import lxml.etree
@@ -17,7 +18,6 @@ _table_inner_re = re.compile(
     r'\<div id="reg_sched"\>.*?\<table\>(.+?)\</table\>',
     re.IGNORECASE | re.DOTALL
 )
-_table_tr_re = re.compile(r"\</?tr/?\>", re.IGNORECASE)
 
 # define weekday characters used in the schedule table
 MONDAY = "M"; TUESDAY = "T"; WEDNESDAY = "W"; THURSDAY = "R"; FRIDAY = "F"
@@ -153,36 +153,10 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         
         # pull from the schedule block
         working_block = lxml_source.get_element_by_id("reg_sched")
-        # look in the table
-        rows = working_block.xpath("./table")[0]
-        # fix isis' crappy html code
-        # Also, we need to grab it before lxml has a chance to try to parse it
-        rows = lxml.html.fragment_fromstring(
-            "<table>%s</table>" % self._fix_table_html(
-                _table_inner_re.search(str_source).group(1)
-            )
-        )
-        # start ripping things from the schedule and putting them into a dict
-        headers = [i.text.strip().lower() for i in rows[0]]
-        row_dicts = []
-        for r in rows[1:]:
-            d = {}; i = 0; k = 0
-            while i < len(r):
-                tag = r[i]
-                text = tag.text.strip() if tag.text else None
-                if not text: text = None
-                if "colspan" in tag.attrib:
-                    span = int(tag.get("colspan").strip())
-                    for m in range(span):
-                        if k + m >= len(headers):
-                            break # fucking broken isis html
-                        d[headers[k + m]] = text
-                    k += span
-                else:
-                    d[headers[k]] = text
-                    k += 1
-                i += 1
-            row_dicts.append(d)
+        
+        # Put it into a list of dicts
+        # We need to grab it before lxml has a chance to try to parse it
+        row_dicts = table_to_list(_table_inner_re.search(str_source).group(1))
         rows = row_dicts[:-1] # get rid of footer
         total_credits = int(row_dicts[-1]["credits"]) # we'll use this for
                                                       # validation later on
@@ -253,13 +227,6 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         
         self._page_src = byte_source
         self.__loaded = True
-    
-    def _fix_table_html(self, source):
-        """Source should be a string with the contents of the table, excluding
-        the <table> tags"""
-        rows = \
-            [i for i in [k.strip() for k in _table_tr_re.split(source)] if i]
-        return "<tr>%s</tr>" % "</tr><tr>".join(rows)
     
     def get_formatted_classes_string(self):
         """Takes the data from the schedule table and re-formats it into a
