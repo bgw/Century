@@ -2,8 +2,13 @@ import lxml.html
 import re
 
 _table_tr_re = re.compile(r"\</?tr/?\>", re.IGNORECASE)
+_process_header = lambda tag: \
+    tag.text_content().strip().lower() if tag.text_content().strip() else None
+_process_cell = lambda tag: \
+    tag.text_content().strip() if tag.text_content().strip() else None
 
-def table_to_iter(table_string):
+def table_to_iter(table_string, process_header=_process_header,
+                  process_cell=_process_cell):
     """Takes a table on isis that is a list of items with fields designated by a
     single header, and converts them into a iterator of dicts, with keys based
     on the header, and values based on each row's cells. For example, we can
@@ -31,18 +36,34 @@ def table_to_iter(table_string):
              "days":"TBA", "periods":"TBA", "building":"JACK", "room":"TBA"}
         ]
     
-    The header is discarded."""
+    The header is discarded.
+    
+    *Keyword arguments:*
+    
+    ``table_string``
+        The inner contents of ``<table>`` tags.
+    ``process_header``
+        A function that takes an argument of a header cell as an lxml
+        :class:`HtmlElement`, and outputs a result to be used as the header
+        value. *By default:* pulls the text content as a string, strips leading
+        and ending whitespace, and converts it to lowercase.
+    ``process_cell``
+        A function that takes an argument of a header cell as an lxml
+        :class:`HtmlElement`, and outputs a result to be used as the cell value.
+        *By default:* pulls the text content as a string, and strips leading
+        and ending whitespace.
+    """
     rows = lxml.html.fragment_fromstring(
         "<table>%s</table>" % _fix_table_html(
             table_string
         )
     )
-    headers = [i.text.strip().lower() for i in rows[0]]
+    headers = [process_header(i) for i in rows[0]]
     for r in rows[1:]:
         d = {}; i = 0; k = 0
         while i < len(r):
             tag = r[i]
-            text = tag.text.strip() if tag.text else None
+            text = process_cell(tag)
             if not text: text = None
             if "colspan" in tag.attrib:
                 span = int(tag.get("colspan").strip())
@@ -57,10 +78,10 @@ def table_to_iter(table_string):
             i += 1
         yield d
 
-def table_to_list(table_string):
+def table_to_list(*args, **kwargs):
     """Does the same thing as :func:`table_to_iter`, but gives a list instead of
     an iterator."""
-    return list(table_to_iter(table_string))
+    return list(table_to_iter(*args, **kwargs))
 
 def _fix_table_html(source):
     """Fixes ISIS' poor tagging of table rows. Source should be a string with
