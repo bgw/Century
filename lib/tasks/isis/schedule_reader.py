@@ -1,6 +1,7 @@
 from ...browser import parsers
 from .. import *
 from ..isis import table_to_list
+from . import courses
 
 import lxml.html
 import lxml.etree
@@ -26,11 +27,13 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
     """Attempts to provide information from the ISIS schedule page in as
     transparent of a format as possible.
     
-    *Please Note:* Getting properties from this page may cause a page-load to
-    happen, in order to pull the required data, however caching is done when
-    possible. It is suggested that you call
-    :py:func:`...browser.plugins.uf.login.LoginBrowserPlugin.uf_set_autologin`
-    on the browser object ahead of time."""
+    .. warning::
+        Getting properties from this page may cause a page-load to happen, in
+        order to pull the required data, however caching is done when possible.
+        It is suggested that you call :func:`lib.browser.plugins.uf.login.
+        LoginBrowserPlugin.uf_set_autologin` on the browser object ahead of
+        time.
+    """
     
     def __init__(self, semester, browser=None):
         BaseUFTaskManager.__init__(self)
@@ -76,50 +79,16 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
     
     user_info_dict = property(get_user_info_dict)
     
-    def get_classes(self):
-        """Returns a list of dictionaries, one for each class, containing
-        information pulled from the table.
-        
-        Data:
-        section -- An string representing the section code (usually written as
-                   an integer, _but not always_).
-        type -- A string representing the "Type" column in the table. I have no
-                clue what this is supposed to represent. If someone could shed
-                some light on it, that would be appreciated.
-        course -- A string representing the course number, in the format
-                  "COL1234", where "COL" is the college name, and "1234" is the
-                  4-digit code for that course within the college
-        credits -- An integer representing the number of credits that class
-                   gives.
-        times -- A list of dictionaries, representing subcolumns, "days",
-                 "periods", "building", and "room". Each dictionary represents a
-                 set of grouped times and locations. "days" is a tuple of
-                 single-character strings, "M", "T", "W", "R", and "F", which
-                 match with :py:data:`MONDAY`, :py:data:`TUESDAY`,
-                 :py:data:`WEDNESDAY`, :py:data:`THURSDAY`, and
-                 :py:data:`FRIDAY`, respectively. "periods" is a tuple of ints,
-                 representing each period that class if being held at. For
-                 example, "7-9" would turn into ``(7, 8, 9)``. Finally,
-                 "building" and "room" both contain strings with their matching
-                 information.
-        """
+    def get_course_list(self):
+        """Gets the value of :attr:`course_list`."""
         self.auto_load()
-        return self.__classes
+        return self.__course_list
     
-    classes = property(get_classes)
-    
-    def get_campus_map_url(self):
-        self.auto_load()
-        return self.__campus_map_url
-    
-    campus_map_url = property(get_campus_map_url)
-    
-    def open_campus_map(self, new=1, autoraise=True):
-        """Uses the webbrowser module to open the campus map webpage. No
-        authentication is needed on the side of the browser."""
-        webbrowser.open(self.campus_map_url, new=new, autoraise=autoraise)
-    
-    
+    course_list = property(get_course_list, doc="""
+        A :class:`lib.tasks.isis.courses.CourseList` object filled with
+        :class:`lib.tasks.isis.courses.Course` objects. The ``course_code``,
+        ``section_number``, ``credits``, and ``meetings`` fields are populated
+        in each :class:`lib.tasks.isis.courses.Course` object.""")
     
     def auto_load(self):
         """Checks to see if the page has been loaded before. If not, it loads
@@ -156,134 +125,38 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         
         # Put it into a list of dicts
         # We need to grab it before lxml has a chance to try to parse it
-        row_dicts = table_to_list(_table_inner_re.search(str_source).group(1))
-        rows = row_dicts[:-1] # get rid of footer
-        total_credits = int(row_dicts[-1]["credits"]) # we'll use this for
-                                                      # validation later on
+        rows = table_to_list(_table_inner_re.search(str_source).group(1))
+        total_credits = int(rows[-1]["credits"]) # we'll use this for validation
+        rows = rows[:-1] # get rid of footer
         
-        # utility function
-        period_to_int = lambda period: \
-            11 + int(period[1:]) if period[0].upper() == "E" else int(period)
-        # parse credits, days, and periods columns, and make their formats more
-        # user-friendly
+        # parse columns
         for r in rows:
             r["credits"] = int(r["credits"]) if r["credits"] is not None \
                                              else None
-            r["days"] = tuple(r["days"].upper().split())
-            # make periods into a tuple of ints
-            period = r["periods"]
-            if period is None:
-                pass
-            elif "to be" in period or "tba" in period.lower():
-                r["periods"] = None
-                r["days"] = None
-            elif "-" in period:
-                index = period.index("-")
-                start = period[:index]; end = period[index + 1:]
-                r["periods"] = tuple(range(period_to_int(start),
-                                           period_to_int(end) + 1))
-            else:
-                r["periods"] = (period_to_int(period), )
         
-        if not total_credits == sum([0 if not i["credits"] else i["credits"] \
-                                     for i in rows]):
+        # validate that the table was processed correctly
+        if not total_credits == sum(i["credits"] for i in rows if i["credits"]):
             logger.error("Table reading likely failed: ISIS' reported credit"
                          "total fails to match the sum of all credits.")
         
-        classes = []
-        
-        build_time_dict = lambda i: {"days": rows[i]["days"],
-                                     "periods": rows[i]["periods"],
-                                     "building": rows[i]["bldg"],
-                                     "room": rows[i]["room"]}
-        # fix orphans and populate classes list with dicts
-        for i in range(len(rows)):
-            if rows[i]["section"] is not None: # no orphans here!
-                class_dict = {}
-                classes.append(class_dict)
-                class_dict["section"] = rows[i]["section"]
-                class_dict["type"] = rows[i]["type"]
-                class_dict["course"] = rows[i]["course"]
-                class_dict["credits"] = rows[i]["credits"]
-                if rows[i]["periods"] is None:
-                    class_dict["times"] = None
-                else:
-                    class_dict["times"] = [build_time_dict(i), ]
-            else: # we have an orphaned row
-                parent = classes[-1]
-                parent["times"].append(build_time_dict(i))
-        
-        self.__classes = classes
-        
-        # find the url for the campus map
-        try:
-            self.__campus_map_url = \
-                working_block.xpath("./a[@target='map']")[0].attrib["href"]
-        except IndexError:
-            logger.warning("Map could not be found. Do you not have any "
-                           "classes with locations? Reverting map url to "
-                           "'http://campusmap.ufl.edu'.")
-            self.__campus_map_url = "http://campusmap.ufl.edu"
-        
-        self._page_src = byte_source
-        self.__loaded = True
-    
-    def get_formatted_classes_string(self):
-        """Takes the data from the schedule table and re-formats it into a
-        pretty string, useful for printing out on a shell."""
-        classes = self.classes
-        
-        # utility function
-        table_str = lambda x: \
-            "" if x is None else \
-            " ".join([str(i) for i in x]) if isinstance(x, tuple) or \
-                                             isinstance(x, list) else \
-            str(x)
-        
-        section_col = ["section"]
-        type_col = ["type"]
-        course_col = ["course"]
-        credits_col = ["credits"]
-        days_col = ["days"] # part of times
-        periods_col = ["periods"] # part of times
-        building_col = ["building"] # part of times
-        room_col = ["room"] # part of times
-        
-        # build the columns
-        for c in classes:
-            section_col.append(table_str(c["section"]))
-            type_col.append(table_str(c["type"]))
-            course_col.append(table_str(c["course"]))
-            credits_col.append(table_str(c["credits"]))
-            if c["times"] is None:
-                days_col.append("TBA")
-                periods_col.append("TBA")
-                building_col.append("TBA")
-                room_col.append("TBA")
+        course_list = courses.CourseList()
+        for r in rows:
+            # get the meeting defined in the row
+            if "to be" not in r["days"] and "tba" not in r["days"]:
+                meet = courses.CourseMeeting(r["days"], r["periods"], r["bldg"],
+                                             r["room"])
             else:
-                first_round = True
-                for t in c["times"]:
-                    days_col.append(table_str(t["days"]))
-                    periods_col.append(table_str(t["periods"]))
-                    building_col.append(table_str(t["building"]))
-                    room_col.append(table_str(t["room"]))
-                    if first_round:
-                        first_round = False
-                        continue
-                    section_col.append("")
-                    type_col.append("")
-                    course_col.append("")
-                    credits_col.append("")
+                meet = None
+            if r["section"] is not None: # no orphans here!
+                course_list.append(
+                    courses.Course(r["course"], r["section"],
+                                  credits=r["credits"],
+                                  meetings=[meet] if meet else [])
+                )
+            else: # we have an orphaned row
+                # an orphaned row is one where only a meeting is defined, the
+                # class declaration is implicitly defined by last non-orphaned
+                # row
+                course_list[-1].meetings.append(meet)
         
-        # turn it into a string
-        result = ""
-        columns = [section_col, type_col, course_col, credits_col, days_col,
-                   periods_col, building_col, room_col]
-        widths = [max([len(elem) for elem in col]) for col in columns]
-        for r in range(len(section_col)):
-            for c in range(len(columns)):
-                result += columns[c][r].ljust(widths[c] + 2)
-            result += "\n"
-        return result[:-1] # trim off the last '\n'
-    
-    formatted_classes_string = property(get_formatted_classes_string)
+        self.__course_list = course_list
