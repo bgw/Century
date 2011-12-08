@@ -64,7 +64,6 @@ def table_to_iter(table_string, process_header=_process_header,
         while i < len(r):
             tag = r[i]
             text = process_cell(tag)
-            if not text: text = None
             if "colspan" in tag.attrib:
                 span = int(tag.get("colspan").strip())
                 for m in range(span):
