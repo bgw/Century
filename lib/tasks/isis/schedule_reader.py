@@ -27,6 +27,15 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
     """Attempts to provide information from the ISIS schedule page in as
     transparent of a format as possible.
     
+    *Keyword Arguments:*
+    
+    ``semester``
+        A string, "spring", "summer", or "fall", representing what semester
+        schedule we should pull up.
+    ``browser``
+        A custom browser object to use. (If None is passed, a new uf-browser
+        instance is created.)
+    
     .. warning::
         Getting properties from this page may cause a page-load to happen, in
         order to pull the required data, however caching is done when possible.
@@ -43,14 +52,20 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         self._page_src = None # as the result of parser.passthrough_args
     
     def get_semester(self):
+        """Gets the value of :attr:`semester`."""
         return self.__semester
     
-    semester = property(get_semester)
+    semester = property(get_semester, doc="""
+        A string, "spring", "summer", or "fall", representing what semester
+        schedule we are working with.""")
     
     def get_semester_code(self):
+        """Gets the value of :attr:`semester_code`."""
         return _semester_codes[self.semester.lower()]
     
-    semester_code = property(get_semester_code)
+    semester_code = property(get_semester_code, doc="""
+        Gets a value like "RSI-SSCHED", which can be used as an HTTP GET or POST
+        parameter in the request for the page with the schedule.""")
     
     def _get_page_byte_source(self):
         self.auto_load()
@@ -88,15 +103,21 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         A :class:`lib.tasks.isis.courses.CourseList` object filled with
         :class:`lib.tasks.isis.courses.Course` objects. The ``course_code``,
         ``section_number``, ``credits``, and ``meetings`` fields are populated
-        in each :class:`lib.tasks.isis.courses.Course` object.""")
+        in each :class:`lib.tasks.isis.courses.Course` object.
+        
+        .. note::
+            Formerly, this class had a function for getting a url to a campus
+            map. That functionality is now in :attr:`lib.tasks.isis.courses.
+            CourseList.campus_map_url`.
+        """)
     
     def auto_load(self):
         """Checks to see if the page has been loaded before. If not, it loads
         it."""
         if not self.__loaded:
-            self.force_reload()
+            self.force_load()
     
-    def force_reload(self):
+    def force_load(self):
         """Loads the page, regardless of if it has already been loaded or
         not."""
         byte_source = self.browser.load_isis_page(

@@ -40,3 +40,9 @@ the cost of extra dependencies *as you go*.
     
     .. automethod:: __init__
     .. automethod:: _get_new_browser
+
+Pre-Built Tasks
+---------------
+
+.. toctree::
+    isis/index

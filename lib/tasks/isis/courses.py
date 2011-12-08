@@ -9,9 +9,9 @@ from string import Template
 import re
 
 class CourseList(UserList):
-    """Represents a list of :class:`Course`s, extendable to incorporate pulling
-    lists of courses from various sources, such as an ISIS schedule, or the UF
-    registrar."""
+    """Represents a list of :class:`Course` objects, extendable to incorporate
+    pulling lists of courses from various sources, such as an ISIS schedule, or
+    the UF registrar."""
     
     def __init__(self, data=None):
         """Construct a new list from a given list of :class:`Course`s. If no
@@ -178,6 +178,7 @@ class Course:
         self.__gordon_rule = gordon_rule
     
     def __str__(self):
+        """Makes a pretty human-readable representation of this object."""
         output = ["Course %s (Section %s):" %
                   (self.course_code, self.section_number)]
         if self.title:
@@ -293,12 +294,17 @@ class Course:
         webbrowser.open(self.campus_map_url, *args, **kwargs)
     
     def __eq__(self, other):
+        """Tests equality based on the :attr:`course_code` and
+        :attr:`section_number`."""
         if self is other:
             return True
         return self.course_code == other.course_code and \
                self.section == other.section
     
     def __hash__(self):
+        """Computes a hash based on the :attr:`course_code` and
+        :attr:`section_number`, allowing you to use :class:`Course` objects in a
+        :class:`dict`."""
         return hash((self.course_code, self.section_number))
 
 class CourseCode(UserString):
@@ -312,8 +318,10 @@ class CourseCode(UserString):
     like a string, but it also provides a set of methods to make processing
     easier.
     
-    **Note:** You may construct this object, passing in a string like
-    "mac 2311", and it will convert it to the consistent format "MAC2311"."""
+    .. note::
+        You may construct this object, passing in a string like "mac 2311", and
+        it will convert it to the consistent format "MAC2311".
+    """
     
     def __init__(self, code_str):
         UserString.__init__(self, re.sub(r"(\s|[-_])", "", code_str).upper())
