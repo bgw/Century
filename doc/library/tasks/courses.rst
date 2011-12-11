@@ -49,8 +49,7 @@
     .. autoattribute:: lab
 
 .. autoclass:: CourseMeeting
-    
-    .. autoattribute:: Days
+
     .. automethod:: get_days
     .. autoattribute:: days
     .. automethod:: get_periods
@@ -71,3 +70,9 @@
     .. automethod:: get_campus_map_url
     .. autoattribute:: campus_map_url
     .. automethod:: open_campus_map
+
+.. autoclass:: Days
+    :members:
+
+.. autoclass:: Semesters
+    :members:

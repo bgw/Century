@@ -403,8 +403,7 @@ class CourseMeeting:
         held on Monday, Wednesday, Thursday, and Friday. Spaces are stripped,
         text is capitalized (in case it isn't already) and a tuple is formed
         by turning each character in the string into an item in the tuple. A
-        passed tuple may only contain values in the :class:`CourseMeeting.Days`
-        enum.
+        passed tuple may only contain values in the :class:`Days` enum.
     ``periods``
         Either a tuple or a string representing which periods the course is
         being held at this location. If passed a string, we run
@@ -424,17 +423,6 @@ class CourseMeeting:
         whitespace.
     """
     
-    class Days:
-        """A set of valid values to use in a list/tuple of days, playing the
-        role of an enum-like construct."""
-        MONDAY = "M"
-        TUESDAY = "T"
-        WEDNESDAY = "W"
-        THURSDAY = "R"
-        FRIDAY = "F"
-        SATURDAY = "S"
-        EVERY_DAY = tuple("MTWRFS")
-    
     def __init__(self, days, periods, building, room):
         if isinstance(days, str):
             days = tuple(days.upper().replace(" ", ""))
@@ -451,8 +439,10 @@ class CourseMeeting:
     
     days = property(get_days, doc="""
         A tuple of days, containing values defined in
-        :class:`CourseMeeting.Days`. A nice feature of this, is that you can
-        write code such as ``CourseMeeting.Days.MONDAY in my_course_time.days``.
+        :class:`Days`. A nice feature of this, is that you can write code such
+        as::
+        
+            Days.MONDAY in my_course_time.days
         """)
     
     def get_periods(self):
@@ -503,3 +493,21 @@ class CourseMeeting:
     def __str__(self):
         return "Periods %s on %s at %s %s" % \
                (self.periods_str, " ".join(self.days), self.building, self.room)
+
+class Days:
+    """A set of valid values to use in a list/tuple of days, playing the role of
+    an enum-like construct."""
+    MONDAY = "M"
+    TUESDAY = "T"
+    WEDNESDAY = "W"
+    THURSDAY = "R"
+    FRIDAY = "F"
+    SATURDAY = "S"
+    EVERY_DAY = tuple("MTWRFS")
+
+class Semesters:
+    """A set of valid values to use in a list/tuple of semesters, playing the
+    role of an enum-like construct."""
+    SPRING = "spring"
+    SUMMER = "summer"
+    FALL = "fall"
