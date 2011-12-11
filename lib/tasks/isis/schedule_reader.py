@@ -12,16 +12,15 @@ import webbrowser
 
 logger = logging.getLogger("task.schedule.reader")
 
-_semester_codes = {"spring":"RSI-SSCHED", "summer":"RSI-USCHED",
-                   "fall":"RSI-FSCHED"}
+# a lookup table for isis' page codes
+_semester_codes = {courses.Semesters.SPRING:"RSI-SSCHED",
+                   courses.Semesters.SUMMER:"RSI-USCHED",
+                   courses.Semesters.FALL:"RSI-FSCHED"}
 
 _table_inner_re = re.compile(
     r'\<div id="reg_sched"\>.*?\<table\>(.+?)\</table\>',
     re.IGNORECASE | re.DOTALL
 )
-
-# define weekday characters used in the schedule table
-MONDAY = "M"; TUESDAY = "T"; WEDNESDAY = "W"; THURSDAY = "R"; FRIDAY = "F"
 
 class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
     """Attempts to provide information from the ISIS schedule page in as
