@@ -100,14 +100,14 @@ class ScheduleReader(BaseUFTaskManager, BaseTaskManager):
         return self.__course_list
     
     course_list = property(get_course_list, doc="""
-        A :class:`lib.tasks.isis.courses.CourseList` object filled with
-        :class:`lib.tasks.isis.courses.Course` objects. The ``course_code``,
+        A :class:`lib.tasks.courses.CourseList` object filled with
+        :class:`lib.tasks.courses.Course` objects. The ``course_code``,
         ``section_number``, ``credits``, and ``meetings`` fields are populated
-        in each :class:`lib.tasks.isis.courses.Course` object.
+        in each :class:`lib.tasks.isis.Course` object.
         
         .. note::
             Formerly, this class had a function for getting a url to a campus
-            map. That functionality is now in :attr:`lib.tasks.isis.courses.
+            map. That functionality is now in :attr:`lib.tasks.courses.
             CourseList.campus_map_url`.
         """)
     
