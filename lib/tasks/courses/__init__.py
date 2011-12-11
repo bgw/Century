@@ -1,5 +1,5 @@
 """This module contains various classes for organizing and managing courses and
-course properties as objects. Things are done in an extendable fashion, so that
+course properties as objects. Things are done in an extensible fashion, so that
 if you want to append additional information to course objects, you can do so
 easily."""
 

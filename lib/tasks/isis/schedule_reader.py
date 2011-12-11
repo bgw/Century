@@ -1,7 +1,7 @@
 from ...browser import parsers
 from .. import *
 from ..isis import table_to_list
-from . import courses
+from .. import courses
 
 import lxml.html
 import lxml.etree

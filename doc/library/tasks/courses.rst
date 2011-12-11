@@ -2,7 +2,7 @@
 ``courses`` -- Object Representations of UF Course Information
 ==============================================================
 
-.. automodule:: lib.tasks.isis.courses
+.. automodule:: lib.tasks.courses
 
 .. autoclass:: Course
     

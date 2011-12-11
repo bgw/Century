@@ -11,5 +11,4 @@ Submodules
 ----------
 
 .. toctree::
-    courses
     schedule_reader

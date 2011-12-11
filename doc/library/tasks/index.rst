@@ -44,5 +44,6 @@ the cost of extra dependencies *as you go*.
 Pre-Built Tasks
 ---------------
 
-.. toctree::
+.. toctree:
+    courses
     isis/index
