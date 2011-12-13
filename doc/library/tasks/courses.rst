@@ -76,3 +76,12 @@
 
 .. autoclass:: Semesters
     :members:
+
+Fuzzy Matching
+--------------
+
+.. automodule:: lib.tasks.courses.fuzzy_match
+
+.. autofunction:: lev_dist
+.. autofunction:: lev_ratio
+.. autofunction:: similar_zip
