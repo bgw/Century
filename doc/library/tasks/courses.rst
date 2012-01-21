@@ -77,11 +77,33 @@
 .. autoclass:: Semesters
     :members:
 
-Fuzzy Matching
---------------
+``courses.fuzzy_match`` -- Fuzzy Matching with List and String-like Objects
+---------------------------------------------------------------------------
 
 .. automodule:: lib.tasks.courses.fuzzy_match
 
+.. autofunction:: similar_zip
+
+Algorithms
+~~~~~~~~~~
+
+All algorithms share one property; that they must be callable in the form::
+
+    algorithm(s1, s2)
+
+Where ``s1`` and ``s2`` are the two objects to compare.
+
 .. autofunction:: lev_dist
 .. autofunction:: lev_ratio
-.. autofunction:: similar_zip
+.. autofunction:: hamming_dist
+.. autofunction:: hamming_ratio
+.. autofunction:: frequency_dist
+.. autofunction:: frequency_ratio
+
+Meta-Algorithms
+~~~~~~~~~~~~~~~
+
+Meta-Algorithms are functions that use other algorithms in various ways.
+
+.. autofunction:: offset_minimum
+.. autofunction:: offset_maximum
