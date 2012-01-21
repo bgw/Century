@@ -20,6 +20,8 @@
     .. autoattribute:: gen_ed_credit
     .. automethod:: get_gordon_rule
     .. autoattribute:: gordon_rule
+    .. automethod:: get_instructors
+    .. autoattribute:: instructors
     .. automethod:: get_campus_map_url_arguments
     .. autoattribute:: campus_map_url_arguments
     .. automethod:: get_campus_map_url
