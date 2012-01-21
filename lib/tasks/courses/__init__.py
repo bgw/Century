@@ -146,6 +146,10 @@ class Course:
     ``gordon_rule``
         A string specifying what gordon-rule credits the course provides. This
         value is made uppercase.
+    ``instructors``
+        A list of strings representing who teaches the class. The capitalization
+        heuristic applied in the title processing is also done here to improve
+        readability.
     
     .. note::
         Leading and trailing spaces are stripped of of any string arguments, so
@@ -157,7 +161,8 @@ class Course:
         piece of information is unknown.
     """
     def __init__(self, course_code, section_number, title=None, credits=None,
-                 meetings=None, gen_ed_credit=None, gordon_rule=None):
+                 meetings=None, gen_ed_credit=None, gordon_rule=None,
+                 instructors=None):
         if not isinstance(course_code, CourseCode):
             course_code = CourseCode(course_code)
         self.__course_code = course_code
@@ -176,6 +181,17 @@ class Course:
         if gordon_rule is not None:
             gordon_rule = gordon_rule.strip().upper()
         self.__gordon_rule = gordon_rule
+        if instructors is not None:
+            instructors = [self._fix_capitalization(i) for i in instructors]
+        self.__instructors = instructors
+    
+    def _fix_capitalization(self, string):
+        """A cheap heuristic used in title and instructor name processing that
+        attempts to fix capitalization in strings."""
+        if string == string.upper() or string == string.lower():
+            # we need to fix capitalization
+            return " ".join(s.capitalize() for s in string.split(" "))
+        return string
     
     def __str__(self):
         """Makes a pretty human-readable representation of this object."""
@@ -194,6 +210,10 @@ class Course:
             output.append("Gen-Ed Credit: %s" % self.gen_ed_credit)
         if self.gordon_rule:
             output.append("Gordon Rule: %s" % self.gordon_rule)
+        if self.instructors:
+            label = "Taught By: "
+            output.append(label + ("\n" + " " * (len(label) + 4))
+                                   .join(i for i in self.instructors))
         return "\n    ".join(output)
     
     def get_course_code(self):
@@ -251,6 +271,13 @@ class Course:
     gordon_rule = property(get_gordon_rule, doc="""
         A string representing what Gordon-Rule related credits this course
         provides.""")
+    
+    def get_instructors(self):
+        """Gets the value of :attr:`instructors`."""
+        return self.__instructors
+    
+    instructors = property(get_instructors, doc="""
+        A list of strings showing who is teaching the class.""")
     
     def get_campus_map_url_arguments(self):
         """Gets the value of :attr:`campus_map_url_arguments`."""
@@ -328,7 +355,7 @@ class CourseCode(UserString):
     
     def get_prefix(self):
         """Gets the value of :attr:`prefix`."""
-        return self[0:3]
+        return str(self[0:3])
     
     prefix = property(get_prefix, doc="""
         The first three characters (typically capitalized) are the prefix,
@@ -381,7 +408,7 @@ class CourseCode(UserString):
     
     def get_lab(self):
         """Gets the value of :attr:`lab`."""
-        return None if len(self) != 8 else self[7]
+        return None if len(self) != 8 else str(self[7])
     
     lab = property(get_lab, doc="""
         Some courses, such as CHM2045L (General Chemistry's Lab Component) have
@@ -430,8 +457,14 @@ class CourseMeeting:
             periods = periods_str_to_tuple(periods)
         self.__days = days
         self.__periods = periods
-        self.__building = building.strip().upper()
-        self.__room = room.strip().upper()
+        if not building:
+            self.__building = None
+        else:
+            self.__building = building.strip().upper()
+        if not room:
+            self.__room = None
+        else:
+            self.__room = room.strip().upper()
     
     def get_days(self):
         """Gets the value of :attr:`days`."""
