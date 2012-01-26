@@ -47,3 +47,4 @@ Pre-Built Tasks
 .. toctree::
     courses
     isis/index
+    registrar/index
