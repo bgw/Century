@@ -196,8 +196,7 @@ class Browser(Pluggable):
         current page's url."""
         relative_to = self.current_url if relative_to is None else relative_to
         if "://" not in url: # solve relative urls
-            url = urlpar.urljoin(relative_to,
-                                 url[1:] if url[0] == "/" else url)
+            url = urlpar.urljoin(relative_to, url)
         return url
     
     # Browsing history functions
