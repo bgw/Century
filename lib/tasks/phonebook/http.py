@@ -26,32 +26,48 @@ class HttpBackend(PhonebookBackend):
     values are of either type ``str`` or ``NoneType``, unless otherwise
     specified.
     
-    Supported Keys:
-    url -- The url of the person's html page.
-    url_ldap -- The url of the person's html LDAP listing page.
-    url_full -- An alias to ``url_ldap``.
-    title -- A string, usually saying something like "student", or
-             "Resident, DN-ORAL SURGERY RESIDENT".
-    phone -- The prefered phone number (or at least the first one that shows up)
-    preferred_phone -- An alias to ``phone``.
-    email -- The person's email address.
-    gatorlink_email -- The person's gatorlink email address (if not explicitly
-                       provided, this is guessed to be the person's gatorlink,
-                       with "@ufl.edu" appended onto the end).
-    gatorlink -- The person's gatorlink username.
-    department_number -- A code representing what department this person belongs
-                         to.
-    employee_number -- If this person is employed by the University of Florida,
-                       this is their employee number.
-    affiliation -- Described `here <https://phonebook.ufl.edu/affiliations/>`_.
-                   As of writing, possible values include "faculty", "staff",
-                   "student", and "member".
-    address -- The person's home address (or if that's not available, their
-               first available physical address).
-    office_address -- The person's office address (if available).
-    language -- The person's prefered language.
-    birth_date -- An instance of :py:class:`datetype.date` representing the
-                  person's date of birth.
+    *Keyword arguments:*
+    
+    ``url``
+        The url of the person's html page.
+    ``url_ldap``
+        The url of the person's html LDAP listing page.
+    ``url_full``
+        An alias to ``url_ldap``.
+    ``title``
+        A string, usually saying something like "student", or "Resident, DN-ORAL
+        SURGERY RESIDENT".
+    ``phone``
+        The prefered phone number (or at least the first one that shows up)
+    ``preferred_phone``
+        An alias to ``phone``.
+    ``email``
+        The person's email address.
+    ``gatorlink_email``
+        The person's gatorlink email address (if not explicitly provided, this
+        is guessed to be the person's gatorlink, with "@ufl.edu" appended onto
+        the end).
+    ``gatorlink``
+        The person's gatorlink username.
+    ``department_number``
+        A code representing what department this person belongs to.
+    ``employee_number``
+        If this person is employed by the University of Florida, this is their
+        employee number.
+    ``affiliation``
+        Described `here <https://phonebook.ufl.edu/affiliations/>`_. As of
+        writing, possible values include "faculty", "staff", "student", and
+        "member".
+    ``address``
+        The person's home address (or if that's not available, their first
+        available physical address).
+    ``office_address``
+        The person's office address (if available).
+    ``language``
+        The person's prefered language.
+    ``birth_date``
+        An instance of :py:class:`datetype.date` representing the person's date
+        of birth.
     """
     
     def __init__(self, browser):
