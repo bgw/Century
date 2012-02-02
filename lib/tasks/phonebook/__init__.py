@@ -48,6 +48,8 @@ class PhonebookBackend(metaclass=abc.ABCMeta):
     
     browser = property(get_browser)
     
+    fields = abc.abstractproperty()
+    
     @abc.abstractmethod
     def get_search_results(self, query, username, password):
         pass
