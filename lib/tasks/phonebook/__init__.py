@@ -1,5 +1,6 @@
 from ...browser import parsers
 from .. import *
+from .person import *
 
 import abc
 
@@ -50,28 +51,7 @@ class PhonebookBackend(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_search_results(self, query, username, password):
         pass
-
-
-class Person(object):
-    def __init__(self, identifier, attributes):
-        self.__identifier = identifier
-        self.__attributes = attributes
     
-    def _get_identifier(self):
-        return self.__identifier
-    
-    _identifier = property(_get_identifier)
-    
-    def __eq__(self, other):
-        return self._identifier == other._Person_identifier
-    
-    def __getitem__(self, key):
-        if hasattr(self.__attributes[key], "__call__"):
-            self.__attributes[key] = self.__attributes[key]()
-        return self.__attributes[key]
-    
-    def __str__(self):
-        return str({i:str(self[i]) for i in self.__attributes})
-    
-    def __repr__(self):
-        return "Person(%s, %s)" % (repr(self._identifier), str(self))
+    @abc.abstractmethod
+    def process_datahint(self, data_hint):
+        pass

@@ -1,5 +1,5 @@
 from . import PhonebookBackend
-from . import Person
+from .person import *
 from ...browser import parsers
 
 import lxml
