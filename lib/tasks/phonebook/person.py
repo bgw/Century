@@ -10,6 +10,7 @@ class Person(dict):
         dict.__init__(self, *args, **kwargs)
         self.__identifier = identifier
         self._callback = backend.process_datahint
+        self.__checked_datahints = set()
     
     def get_identifier(self):
         """Gets the value of :attr:`identifier`."""
@@ -34,16 +35,24 @@ class Person(dict):
         if key not in self:
             return None
         value = dict.__getitem__(key)
-        while self._is_datahint(value)
-            solved_fields = self._callback(value.pop(0))
+        while self._is_datahint(value):
+            data_hint = value.pop(0)
             if not len(value): # if this is our last DataHint
                 dict.__setitem__(key, None)
+                value = None
+            if data_hint in self.__checked_datahints:
+                # we already checked the datahint when processing another field,
+                # if we didn't find anything out from that, we ain't gonna now
+                continue
+            solved_fields = self._callback(data_hint)
             for k, v in solved_fields.items():
                 if k not in self:
                     raise Exception("The key "%s" is not defined in this "
                                     "Person. All fields must have predefined "
                                     "keys.")
                 if self._is_datahint(dict.__getitem__(k)):
+                    # only fill it in if we don't already know it, avoiding
+                    # mutating a field
                     dict.__setitem__(k, v)
             value = self.__getitem__(key)
         return value
