@@ -11,6 +11,11 @@ class Person(dict):
         self.__identifier = identifier
         self._callback = backend.process_datahint
         self.__checked_datahints = set()
+        for key in backend.fields:
+            # if something isn't declared, make sure its None
+            if key not in self:
+                dict.__setitem__(key, None)
+        assert set(backend.fields) == self.keys()
     
     def get_identifier(self):
         """Gets the value of :attr:`identifier`."""
