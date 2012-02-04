@@ -1,11 +1,11 @@
 from . import PhonebookBackend
 from .person import *
 from ...browser import parsers
+from . import ldap.utils
 
 import lxml
 import datetime
 import re
-import collections
 import logging
 try: # py3k
     import urllib.parse as urlpar
@@ -90,11 +90,7 @@ class HttpBackend(PhonebookBackend):
     
     def __init__(self, browser):
         PhonebookBackend.__init__(self, browser)
-        self.__fields = {"url", "url_ldap", "url_full", "title", "phone",
-                         "preferred_phone", "email", "gatorlink_email",
-                         "gatorlink", "department_number", "employee_number",
-                         "affiliation", "address", "office_address", "language",
-                         "birth_date"}
+        self.__fields = ldap.utils.supported_fields
     
     def get_fields(self):
         return self.__fields
@@ -185,67 +181,5 @@ class HttpBackend(PhonebookBackend):
         element_list = lxml_source.xpath("//div[@id='ldap']/dl")[0]
         keys = [i.text.strip() for i in element_list.xpath("./dt")]
         values = [i.text.strip() for i in element_list.xpath("./dd")]
-        data = collections.defaultdict(lambda: None)
-        base_data = dict(zip(keys, values))
-        data.update(base_data)
         
-        # Utility Functions:
-        def fix_address(s): # Replace the $s in addresses with newlines
-            return s.replace("$", "\n") if s is not None else None
-        def select(data, *keys): # given keys, select the first one with a value
-            for i in keys:
-                if data[i]:
-                    return data[i]
-            return None
-        
-        # process some more complicated fields first:
-        base_title = select("title", "eduPersonPrimaryAffiliation")
-        if "o" in data:
-            if base_title is not None:
-                title = "%s, %s" % (base_title, data["o"])
-            else:
-                title = data["o"]
-        else:
-            title = base_title
-        phone = select(data, "telephoneNumber", "homePhone")
-        email = data["mail"]
-        if email and "@ufl.edu" in email:
-            gatorlink = email[:-len("@ufl.edu")]
-            gatorlink_email = attributes["email"]
-        else:
-            gatorlink = data["uid"] if data["uid"] \
-                                    else data["homeDirectory"][3:] \
-                                        if data["homeDirectory"] else None
-            gatorlink_email = ("%s@ufl.edu" % gatorlink) if gatorlink else None
-        birth_date = \
-            datetime.date(*[
-                int(i) for i in data["uflEduBirthDate"].split("-")
-            ]) if data["uflEduBirthDate"] else None
-        
-        # plug in and return ALL THE THINGS
-        return {k:v for k, v in {
-            "raw_ldap":base_data,
-            "affiliation":data["eduPersonPrimaryAffiliation"],
-            "name":select(data, "displayName", "cn", "gecos"),
-            "phone":phone,
-            "preferred_phone":phone,
-            "email":email,
-            "gatorlink":gatorlink,
-            "gatorlink_email":gatorlink_email,
-            "department_number":
-                select(data, "departmentNumber", "uflEduPsDeptId"),
-            "employee_number":data["employeeNumber"],
-            "address":
-                fix_address(
-                    select(data, "postalAddress",
-                           "homePostalAddress", "registeredAddress",
-                           "uflEduOfficeLocation", "street"
-                    )
-                ),
-            "office_address":
-                fix_address(
-                    select(data, "officeAddress", "uflEduOfficeLocation")
-                ),
-            "language":data["language"],
-            "birth_date":birth_date
-        }.items() if v is not None}
+        return ldap.utils.process_ldap_data(zip(keys, values))
