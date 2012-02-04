@@ -31,7 +31,7 @@ class Phonebook(BaseUFTaskManager, BaseTaskManager):
                                                     self.browser.uf_password)
         if self.__caching:
             for i in range(len(results)):
-                person_id = results[i]._identifier
+                person_id = results[i].identifier
                 if person_id in self.__person_pool:
                     results[i] = self.__person_pool[person_id]
                 else:

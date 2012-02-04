@@ -1,10 +1,9 @@
 from . import PhonebookBackend
 from .person import *
 from ...browser import parsers
-from . import ldap.utils
+from .ldap import utils as ldap_utils
 
 import lxml
-import datetime
 import re
 import logging
 try: # py3k
@@ -50,6 +49,8 @@ class HttpBackend(PhonebookBackend):
         The url of the person's html LDAP listing page.
     ``url_full``
         An alias to ``url_ldap``.
+    ``name``
+        The person's name, as a string, typically: "Lastname, Firstname"
     ``title``
         A string, usually saying something like "student", or "Resident, DN-ORAL
         SURGERY RESIDENT".
@@ -90,7 +91,8 @@ class HttpBackend(PhonebookBackend):
     
     def __init__(self, browser):
         PhonebookBackend.__init__(self, browser)
-        self.__fields = ldap.utils.supported_fields
+        self.__fields = ldap_utils.supported_fields | \
+                        {"url", "url_ldap", "url_full", "url_vcard"}
     
     def get_fields(self):
         return self.__fields
@@ -112,11 +114,16 @@ class HttpBackend(PhonebookBackend):
         if "returned only one" in info:
             attributes = {}
             url = self.browser.current_url
-            identifier = _person_url_re.match(url)
-            data_hint = \
-                HttpLdapDataHint(self.browser.expand_relative_url("full/", url))
-            return [Person(**{key:[data_hint] for key in self.fields},
-                           identifier=identifier)]
+            url_ldap = self.browser.expand_relative_url("full/", url)
+            identifier = _person_url_re.match(url).group("ident")
+            data_hint = HttpLdapDataHint(url_ldap)
+            return [Person(identifier=identifier, backend=self, **dict(
+                list({key:[data_hint] for key in self.fields}.items()) +
+                list({
+                    "url":url, "url_ldap":url_ldap, "url_full":url_ldap,
+                    "url_vcard":self.browser.expand_relative_url("vcard/", url)
+                }.items())
+            ))]
         elif "did not match any members" in info:
             return []
         else:
@@ -145,7 +152,7 @@ class HttpBackend(PhonebookBackend):
             url_ldap = self.browser.expand_relative_url("full/", url)
             url_match = _person_url_re.match(url)
             identifier = url_match.group("ident")
-            private = url_match.group("priv") > 0
+            private = bool(url_match.group("priv"))
             
             data_hint = HttpLdapDataHint(url_ldap)
             # initially fill in all fields with DataHints, marking them unknown
@@ -172,7 +179,8 @@ class HttpBackend(PhonebookBackend):
                                   gatorlink_email=gatorlink_email)
             attributes.update(name=name, title=title, phone=phone,
                               preferred_phone=phone, email=email)
-            results.append(Person(**attributes, identifier=identifier))
+            results.append(Person(identifier=identifier, backend=self,
+                                  **attributes))
         return results
     
     def process_datahint(self, hint):
@@ -182,4 +190,4 @@ class HttpBackend(PhonebookBackend):
         keys = [i.text.strip() for i in element_list.xpath("./dt")]
         values = [i.text.strip() for i in element_list.xpath("./dd")]
         
-        return ldap.utils.process_ldap_data(zip(keys, values))
+        return ldap_utils.process_data(zip(keys, values))

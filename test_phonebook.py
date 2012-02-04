@@ -4,7 +4,7 @@ import logging
 import config
 
 logging.basicConfig()
-logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.INFO)
 
 phonebook = phonebook.Phonebook(HttpBackend)
 phonebook.browser.uf_set_autologin(config.username, config.password)

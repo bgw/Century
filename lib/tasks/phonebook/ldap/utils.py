@@ -1,9 +1,8 @@
 import collections
+import datetime
 
 supported_fields = frozenset([
-    "url",
-    "url_ldap",
-    "url_full",
+    "name",
     "title",
     "phone",
     "preferred_phone",
@@ -16,17 +15,20 @@ supported_fields = frozenset([
     "address",
     "office_address",
     "language",
-    "birth_date"
+    "birth_date",
+    "raw_ldap"
 ])
 
 def process_data(data):
-    base_data = data
+    base_data = dict(data)
     data = collections.defaultdict(lambda: None)
-    data.update(dict(base_data))
+    data.update(base_data)
     
     # Utility Functions:
     def fix_address(s): # Replace the $s in addresses with newlines
-        return s.replace("$", "\n") if s is not None else None
+        if s is None:
+            return None
+        return "\n".join(i.strip() for i in s.split("$"))
     def select(data, *keys): # given keys, select the first one with a value
         for i in keys:
             if data[i]:
@@ -34,7 +36,7 @@ def process_data(data):
         return None
     
     # process some more complicated fields first:
-    base_title = select("title", "eduPersonPrimaryAffiliation")
+    base_title = select(data, "title", "eduPersonPrimaryAffiliation")
     if "o" in data:
         if base_title is not None:
             title = "%s, %s" % (base_title, data["o"])
@@ -46,7 +48,7 @@ def process_data(data):
     email = data["mail"]
     if email and "@ufl.edu" in email:
         gatorlink = email[:-len("@ufl.edu")]
-        gatorlink_email = attributes["email"]
+        gatorlink_email = email
     else:
         gatorlink = data["uid"] if data["uid"] else data["homeDirectory"][3:] \
                                               if data["homeDirectory"] else None
