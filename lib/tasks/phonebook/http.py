@@ -2,6 +2,7 @@ from . import PhonebookBackend
 from .person import *
 from ...browser import parsers
 from .ldap import utils as ldap_utils
+from . import fields
 
 import lxml
 import re
@@ -41,63 +42,14 @@ class HttpBackend(PhonebookBackend):
     <http://www.webadmin.ufl.edu/projects/phonebook/ldap-field-spec.html>`_ and
     `here <http://open-systems.ufl.edu/content/uf-ldap-schema>`_.
     
-    *Keyword arguments:*
-    
-    ``url``
-        The url of the person's html page.
-    ``url_ldap``
-        The url of the person's html LDAP listing page.
-    ``url_full``
-        An alias to ``url_ldap``.
-    ``name``
-        The person's name, as a string, typically: "Lastname, Firstname"
-    ``title``
-        A string, usually saying something like "student", or "Resident, DN-ORAL
-        SURGERY RESIDENT".
-    ``phone``
-        The prefered phone number (or at least the first one that shows up)
-    ``preferred_phone``
-        An alias to ``phone``.
-    ``email``
-        The person's email address.
-    ``gatorlink_email``
-        The person's gatorlink email address (if not explicitly provided, this
-        is guessed to be the person's gatorlink, with "@ufl.edu" appended onto
-        the end).
-    ``gatorlink``
-        The person's gatorlink username.
-    ``department_number``
-        A code representing what department this person belongs to.
-    ``employee_number``
-        If this person is employed by the University of Florida, this is their
-        employee number. This is the same as one's UFID Number.
-    ``affiliation``
-        Described `here <https://phonebook.ufl.edu/affiliations/>`_. As of
-        writing, possible values include "faculty", "staff", "student", and
-        "member".
-    ``address``
-        The person's home address (or if that's not available, their first
-        available physical address).
-    ``office_address``
-        The person's office address (if available).
-    ``language``
-        The person's prefered language.
-    ``birth_date``
-        An instance of :py:class:`datetype.date` representing the person's date
-        of birth.
-    ``raw_ldap``
-        A dictionary of the raw fields pulled from the person's LDAP entry.
+    $field_info
     """
     
     def __init__(self, browser):
         PhonebookBackend.__init__(self, browser)
-        self.__fields = ldap_utils.supported_fields | \
-                        {"url", "url_ldap", "url_full", "url_vcard"}
     
-    def get_fields(self):
-        return self.__fields
-    
-    fields = property(get_fields)
+    fields = ldap_utils.supported_fields | \
+             {"url", "url_ldap", "url_full", "url_vcard"}
     
     def get_search_results(self, query, username, password):
         if username is not None and password is not None:
@@ -191,3 +143,8 @@ class HttpBackend(PhonebookBackend):
         values = [i.text.strip() for i in element_list.xpath("./dd")]
         
         return ldap_utils.process_data(zip(keys, values))
+
+HttpBackend.__doc__ = fields.process_docstring(
+    HttpBackend.__doc__,
+    [fields.info_dict[i] for i in sorted(HttpBackend.fields)]
+)
