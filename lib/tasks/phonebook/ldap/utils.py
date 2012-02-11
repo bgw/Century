@@ -1,5 +1,8 @@
+"""Docstring"""
+
 import collections
 import datetime
+from .. import fields
 
 supported_fields = frozenset([
     "name",
@@ -18,6 +21,20 @@ supported_fields = frozenset([
     "birth_date",
     "raw_ldap"
 ])
+
+# we can't set the docstring for supported_fields, as it is read-only, but we
+# can add some documentation to the module, so that 
+__doc__ += fields.process_docstring("""
+    
+    .. data:: supported_fields
+        
+        A set of fields supported by the :func:`process_data` function.
+        
+        $field_info
+    """.replace("\n    ", "\n"),
+    [fields.info_dict[i] for i in sorted(supported_fields)],
+    label = None
+)
 
 def process_data(data):
     base_data = dict(data)

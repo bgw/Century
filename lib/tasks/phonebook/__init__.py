@@ -57,3 +57,5 @@ class PhonebookBackend(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def process_datahint(self, data_hint):
         pass
+
+PhonebookBackend.fields.__doc__ = "Documentation"

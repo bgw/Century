@@ -40,7 +40,8 @@ class HttpBackend(PhonebookBackend):
     
     Some information on UF's LDAP fields `can be found here
     <http://www.webadmin.ufl.edu/projects/phonebook/ldap-field-spec.html>`_ and
-    `here <http://open-systems.ufl.edu/content/uf-ldap-schema>`_.
+    `on the open-systems wiki
+    <http://open-systems.ufl.edu/content/uf-ldap-schema>`_.
     
     $field_info
     """
@@ -87,10 +88,10 @@ class HttpBackend(PhonebookBackend):
             else:
                 logger.error("Unable to determine status of query; trying to "
                              "parse as though multiple results were returned.")
-            return self.get_search_results_from_list(lxml_source)
+            return self.__get_search_results_from_list(lxml_source)
     
     
-    def get_search_results_from_list(self, lxml_source):
+    def __get_search_results_from_list(self, lxml_source):
         table = lxml_source.xpath("//div[@id='content']//table")[0]
         headers = [i.text.lower().strip() for i in table.xpath("./thead//th")]
         body = table.xpath("./tbody//tr")

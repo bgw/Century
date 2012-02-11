@@ -1,5 +1,6 @@
 from string import Template
 import datetime
+import re
 
 class FieldInfo:
     def __init__(self, name, description=None, data_type=object):
@@ -14,18 +15,23 @@ class FieldInfo:
     name = property(get_name)
     
     def get_docstring(self):
-        subline = self.description
+        topline = None
         if self.data_type is not object:
-            dataline = "**Type:** \"%s\" *(or compatible)*" % \
-                       self.data_type.__name__
-            if subline is None:
-                subline = dataline
+            if self.data_type.__module__ == "builtins":
+                data_type_str = self.data_type.__name__
             else:
-                subline += "\n\n" + dataline
-        if subline is not None:
-            return "``%s``\n    %s" % (self.name, self.description)
+                data_type_str = "%s.%s" % (self.data_type.__module__,
+                                           self.data_type.__name__)
+            topline = "``%s`` (:class:`%s`)" % (self.name, data_type_str)
         else:
-            return "``%s``" % self.name
+            topline = "``%s``" % self.name
+        
+        subline = self.description
+        
+        if subline is not None:
+            return "%s\n    %s" % (topline, subline.replace("\n", "\n    "))
+        else:
+            return "``%s``" % topline
     
     docstring = property(get_docstring)
     
@@ -39,7 +45,9 @@ def process_docstring(docstring, field_info_list, label="Supported Fields"):
     out = "\n".join(field_info.docstring for field_info in field_info_list)
     if label:
         out = "*%s:*\n\n%s" % (label, out)
-    return Template(docstring).safe_substitute(field_info=out)
+    match = re.search("([ \t]*)(\$field_info)", docstring)
+    out = out.replace("\n", "\n" + match.group(1))
+    return docstring[:match.start(2)] + out + docstring[match.end(2):]
 
 info_dict = {info.name:info for info in [
     FieldInfo("url",
@@ -76,7 +84,7 @@ info_dict = {info.name:info for info in [
               "is their employee number. This is the same as one's UFID "
               "Number.", str),
     FieldInfo("affiliation",
-              "Described `here <https://phonebook.ufl.edu/affiliations/>`_. As "
+              "`Described here <https://phonebook.ufl.edu/affiliations/>`_. As "
               "of writing, possible values include \"faculty\", \"staff\", "
               "\"student\", and \"member\".", str),
     FieldInfo("address",

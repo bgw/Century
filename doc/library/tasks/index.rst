@@ -46,5 +46,6 @@ Pre-Built Tasks
 
 .. toctree::
     courses
+    phonebook/index
     isis/index
     registrar/index
