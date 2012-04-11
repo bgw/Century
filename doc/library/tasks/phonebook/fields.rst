@@ -9,7 +9,8 @@
     .. autoattribute:: name
     .. attribute:: description
         
-        Documentation about the description attribute goes here
+        Human-readable text about the significance of the field. This is used in
+        forming docstrings about the field.
     
     .. autoattribute:: docstring
     .. automethod:: __hash__
@@ -18,4 +19,5 @@
 .. autofunction:: process_docstring
 .. data:: info_dict
     
-    Documentation about the info_dict variable goes here.
+    Contains the global list of defined fields. Given a name, one should be able
+    to pull instrospection information from here.

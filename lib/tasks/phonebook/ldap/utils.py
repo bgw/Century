@@ -1,4 +1,6 @@
-"""Docstring"""
+"""A set of shared utilities useful for dealing with LDAP or LDAP-like data
+sources. Contains a list of LDAP-entry defined fields and a partial processor
+for LDAP data."""
 
 import collections
 import datetime
@@ -37,6 +39,9 @@ __doc__ += fields.process_docstring("""
 )
 
 def process_data(data):
+    """Takes a dict or list of tuples with "raw" LDAP data in string format, and
+    processes it into more pythonic objects with keys matching those listed in
+    :data:`supported_fields`. The processed dict is returned."""
     base_data = dict(data)
     data = collections.defaultdict(lambda: None)
     data.update(base_data)

@@ -53,6 +53,9 @@ class HttpBackend(PhonebookBackend):
              {"url", "url_ldap", "url_full", "url_vcard"}
     
     def get_search_results(self, query, username, password):
+        """Looks up query using the phonebook web interface search engine.
+        Queries can be email addresses, gatorlink usernames, or real names. Some
+        basic information gets pulled from the search results page."""
         if username is not None and password is not None:
             search_url = "https://phonebook.ufl.edu/private/people/search"
         else:
@@ -81,7 +84,7 @@ class HttpBackend(PhonebookBackend):
             return []
         else:
             if "returned the following" in info:
-                pass
+                pass # good results
             elif "returned too many people" in info:
                 logger.warning("Too many people returned by query, some "
                                "results were skipped.")
@@ -137,6 +140,8 @@ class HttpBackend(PhonebookBackend):
         return results
     
     def process_datahint(self, hint):
+        """Pulls up the person's LDAP information page, pulls the person's
+        additional information from it, and returns it."""
         lxml_source = self.browser.load_page(hint.url, parser=parsers.lxml_html)
         
         element_list = lxml_source.xpath("//div[@id='ldap']/dl")[0]

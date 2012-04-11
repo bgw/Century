@@ -9,6 +9,5 @@
     .. autoattribute:: identifier
     .. automethod:: __eq__
     .. automethod:: __getitem__
-    .. automethod:: __repr__
 
 .. autoclass:: DataHint

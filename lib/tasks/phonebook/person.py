@@ -1,9 +1,41 @@
 import abc
 
 class DataHint(metaclass=abc.ABCMeta):
+    """The :class:`DataHint` type represents a piece of information which is not
+    yet known. When processing a Person field containing a value that is a list
+    of instances of this class, it gets passed back to
+    :meth:`lib.tasks.phonebook.PhonebookBackend.process_datahint`, which can
+    then attempt to look the information up, and return a dictionary of
+    key-value pairs of newfound information.
+    
+    .. note::
+        The value of a Person's field should not be a :class:`DataHint` object
+        itself, but rather a list of DataHint objects.
+    
+    .. note::
+        While the value of a Person's field can be a list of these objects, if
+        you are just using the API (not extending it), you won't ever
+        see :class:`DataHint` objects, as they should already resolved to a
+        final value or ``None`` by the time you get anything.
+    
+    An example of this in action takes place in the
+    :mod:`lib.tasks.phonebook.http` backend. We get our initial person data from
+    the html results page, requring only one page load. Further information is
+    often available, but only by pulling up the person's page, requiring a page
+    load for each person. To keep unnecessary page loads to a minimum,
+    :class:`DataHint` objects are used, so that the data is only checked for
+    when requested.
+    
+    This class itself is just an abstract stub to represent type."""
     pass
 
 class Person(dict):
+    """A representation of information known about a person. By extending
+    :class:`dict`, one can access data like::
+    
+        name, email = person["name"], person["email"]
+    
+    .."""
     def __init__(self, *args, **kwargs):
         identifier = kwargs.pop("identifier", id(self))
         backend = kwargs.pop("backend")
@@ -37,6 +69,9 @@ class Person(dict):
         return self.identifier == other.identifier
     
     def __getitem__(self, key):
+        """Retrieves the information of a person related to a given ``key``.
+        :class:`DataHint` objects will be processed in this step, so execution
+        time could be variable."""
         if key not in self:
             return None
         value = dict.__getitem__(self, key)
@@ -65,6 +100,8 @@ class Person(dict):
     
     @staticmethod
     def _is_datahint(value):
+        """A helper method that returns ``True`` if ``value`` is *a list of*
+        :class:`DataHint` objects, ``False`` otherwise."""
         try:
             value[0]
         except:
