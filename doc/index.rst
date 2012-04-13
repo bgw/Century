@@ -27,6 +27,7 @@ Contents
 .. toctree::
     :numbered:
     
+    tutorial/index
     library/browser
     library/tasks/index
 
