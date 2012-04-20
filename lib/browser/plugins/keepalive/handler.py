@@ -3,13 +3,13 @@
 This is keepalive.py from the urlgrabber project, available under the GNU LGPL
 ported to python 3 (with help from 2to3).
 
->>> import urllib2
->>> from keepalive import HTTPHandler
+>>> import urllib.request
+>>> from lib.browser.plugins.keepalive.handler import HTTPHandler
 >>> keepalive_handler = HTTPHandler()
->>> opener = urllib2.build_opener(keepalive_handler)
->>> urllib2.install_opener(opener)
+>>> opener = urllib.request.build_opener(keepalive_handler)
+>>> urllib.request.install_opener(opener)
 >>> 
->>> fo = urllib2.urlopen('http://www.python.org')
+>>> fo = urllib.request.urlopen('http://www.python.org')
 
 To remove the handler, simply re-run build_opener with no arguments, and
 install that opener.
@@ -39,7 +39,7 @@ EXTRA ATTRIBUTES AND METHODS
   AttributeError-catching try:
 
   >>> try: status = fo.status
-  >>> except AttributeError: status = None
+  ... except AttributeError: status = None
 
   Unfortunately, these are ONLY there if status == 200, so it's not
   easy to distinguish between non-200 responses.  The reason is that
