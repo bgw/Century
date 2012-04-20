@@ -37,6 +37,12 @@ class CourseList(UserList):
             return self._init_subset(other + self.data)
         return self._init_subset(list(other) + self.data)
     
+    def __getitem__(self, n):
+        res = UserList.__getitem__(self, n)
+        if isinstance(n, slice):
+            return self._init_subset(res)
+        return res
+    
     def __mul__(self, n):
         return self._init_subset(self.data*n)
     __rmul__ = __mul__
