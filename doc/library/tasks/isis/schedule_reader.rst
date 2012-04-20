@@ -4,12 +4,6 @@
 
 .. automodule:: lib.tasks.isis.schedule_reader
 
-.. data:: MONDAY
-.. data:: TUESDAY
-.. data:: WEDNESDAY
-.. data:: THURSDAY
-.. data:: FRIDAY
-
 .. autoclass:: ScheduleReader
     
     .. automethod:: get_semester
